@@ -5,6 +5,7 @@ using Abp.Extensions;
 using Abp.Notifications;
 using Abp.Timing;
 using TestProject.Controllers;
+using TestProject.Services;
 
 namespace TestProject.Web.Host.Controllers
 {
@@ -12,7 +13,7 @@ namespace TestProject.Web.Host.Controllers
     {
         private readonly INotificationPublisher _notificationPublisher;
 
-        public HomeController(INotificationPublisher notificationPublisher)
+       public HomeController(INotificationPublisher notificationPublisher)
         {
             _notificationPublisher = notificationPublisher;
         }
@@ -47,5 +48,7 @@ namespace TestProject.Web.Host.Controllers
 
             return Content("Sent notification: " + message);
         }
+
+
     }
 }

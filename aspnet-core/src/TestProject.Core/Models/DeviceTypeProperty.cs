@@ -14,6 +14,8 @@ namespace TestProject.Models
         [Required]
         public string Name { get; set; }
         
+        public string Type { get; set; }
+
         public string MachineKey { get; set; }
 
         public int DeviceTypeId { get; set; }

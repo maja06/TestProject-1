@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Text;
 using Abp.Domain.Repositories;
+using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using TestProject.Models;
 
@@ -16,6 +14,14 @@ namespace TestProject.Services
         private readonly IRepository<DeviceTypeProperty> _propertyRepository;
         private readonly IRepository<DevicePropertyValue> _valueRepository;
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeviceService"/> class.
+        /// </summary>
+        /// <param name="deviceRepository">The device repository.</param>
+        /// <param name="deviceTypeRepository">The device type repository.</param>
+        /// <param name="propertyRepository">The property repository.</param>
+        /// <param name="valueRepository">The value repository.</param>
         public DeviceService(IRepository<Device> deviceRepository, IRepository<DeviceType> deviceTypeRepository, IRepository<DeviceTypeProperty> propertyRepository, IRepository<DevicePropertyValue> valueRepository)
         {
             _deviceRepository = deviceRepository;
@@ -24,83 +30,133 @@ namespace TestProject.Services
             _valueRepository = valueRepository;
         }
 
-        //public Device CreateDeviceByType(DeviceType deviceType)
-        //{
-        //    Device device = new Device();
-
-        //    device.DeviceType = deviceType;
-        //    device.DeviceTypeProperties = RecursionForProperties(deviceType);
-
-        //    return device;
-        //}
 
 
+        //------------- GET TYPES/TYPE ---------------//
 
-        //public void CreateDevice(Device device)
-        //{
-        //    var newDevice = CreateDeviceByType(device.DeviceType);
-        //}
-
-
-        public void CreateType(DeviceType deviceType)
+        public List<DeviceType> GetAllDeviceTypes()
         {
-            DeviceType device = new DeviceType();
+            var deviceTypes = _deviceTypeRepository.GetAll().Include(x => x.ParentDeviceType).ToList();
 
-            device.Name = deviceType.Name;
+            return deviceTypes;
+        }
+
+        public DeviceType GetDeviceTypeById(int id)
+        {
+            var deviceType = _deviceTypeRepository.Get(id);
+
+            return deviceType;
+        }
+
+
+        //------------- GET DEVICES/DEVICE ---------------//
+
+        public List<Device> GetAllDevices()
+        {
+            var devices = _deviceRepository.GetAll().Include(x => x.DeviceType).ThenInclude(x => x.DeviceTypeProperties).ToList();
+
+            return devices;
+        }
+        
+        public Device GetDeviceById(int id)
+        {
+            var device = _deviceRepository.GetAll().Include(x => x.DeviceType).ThenInclude(x => x.DeviceTypeProperties).FirstOrDefault(x => x.Id == id);
+
+            return device;
+        }
+
+
+
+        //------------- CREATE TYPE ---------------//
+
+        public void CreateDeviceType(DeviceType deviceType)
+        {
+            
 
         }
+
+
+        //------------- CREATE DEVICE ---------------//
 
         public void CreateDevice(Device device)
         {
             Device newDevice = new Device();
 
-            newDevice.DeviceType = device.DeviceType;
             
-            var values = device.DevicePropertyValues;
 
-            foreach (var value in values)
-            {
-                value.DeviceTypeProperty = RecursionForProperties(newDevice.DeviceType).FirstOrDefault(x => x.Id == value.DeviceTypePropertyId);
-            }
 
         }
 
 
 
+        //------------- RECURSIONS FOR PROPERTIES ---------------//
+
+        
 
 
-        public IEnumerable<IGrouping<int, DeviceTypeProperty>> PropertiesByType(List<DeviceTypeProperty> listOfProperties)
+
+
+
+        //------------- RECURSIONS FOR PROPERTIES ---------------//
+
+        public IEnumerable<DeviceTypeProperty> RecursionForType(int? id)
         {
-            var propertiesByType = listOfProperties.GroupBy(x => x.DeviceTypeId);
+            var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+                .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.Id == id);
 
-            return propertiesByType;
-        }
+            if(deviceType == null) throw new UserFriendlyException("No Device Type at given Id");
 
-
-
-
-        public List<DeviceTypeProperty> RecursionForProperties(DeviceType deviceType)
-        {
-            List<DeviceTypeProperty> properties = new List<DeviceTypeProperty>();
-
-            var type = _deviceTypeRepository.GetAll().Include(x => x.ParentDeviceType).FirstOrDefault(x => x.Id == deviceType.Id);
-
-            var currentType = type;
-
-            while (currentType != null)
+            List<DeviceTypeProperty> properties = deviceType.DeviceTypeProperties;
+            
+            if (deviceType.ParentDeviceTypeId == null)
             {
-                foreach (var property in currentType.DeviceTypeProperties)
-                {
-                    properties.Add(property);
-                }
-
-                currentType = currentType.ParentDeviceType;
+                return properties;
             }
-
-            return properties;
+            
+            return properties.Concat(RecursionForType(deviceType.ParentDeviceTypeId));
         }
 
 
+
+        //------------- RECURSIONS FOR TYPE ---------------//
+
+        public IEnumerable<DeviceType> ListOfDeviceTypes(int? id)
+        {
+           var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+                .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.Id == id);
+
+           var deviceTypes = new List<DeviceType>();
+           deviceTypes.Add(deviceType.ParentDeviceType);
+
+           if (deviceType.ParentDeviceTypeId == null)
+           {
+               deviceTypes.Add(deviceType);
+               return deviceTypes;
+           }
+
+            return deviceTypes.Concat(ListOfDeviceTypes(deviceType.ParentDeviceTypeId));
+        }
+
+        //public List<DeviceTypeProperty> RecursionForProperties(DeviceType deviceType)
+        //{
+        //    List<DeviceTypeProperty> properties = new List<DeviceTypeProperty>();
+
+        //    var type = _deviceTypeRepository.GetAll().Include(x => x.ParentDeviceType).FirstOrDefault(x => x.Id == deviceType.Id);
+
+        //    var currentType = type;
+
+        //    while (currentType != null)
+        //    {
+        //        foreach (var property in currentType.DeviceTypeProperties)
+        //        {
+        //            properties.Add(property);
+        //        }
+
+        //        currentType = currentType.ParentDeviceType;
+        //    }
+
+        //    return properties;
+        //}
     }
 
 }
