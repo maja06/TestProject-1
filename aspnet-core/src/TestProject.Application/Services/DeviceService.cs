@@ -3,9 +3,8 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Abp.Domain.Repositories;
 using Abp.UI;
-using Abp.UI.Inputs;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
 using TestProject.DTO;
 using TestProject.Models;
 
@@ -47,7 +46,7 @@ namespace TestProject.Services
             return result;
         }
 
-        public List<DeviceTypeDto> ListOfDeviceTypePorperties(int? id)
+        public List<DeviceTypeDto> ListOfDeviceTypeProperties(int? id)
         {
             var deviceTypes = ListOfDeviceTypes(id);
 
@@ -66,7 +65,6 @@ namespace TestProject.Services
 
                 result.Add(deviceTypeDto);
             }
-
             return result;
         }
 
@@ -84,6 +82,7 @@ namespace TestProject.Services
                     Id = deviceType.Id,
                     name = deviceType.Name,
                     description = deviceType.Description,
+                    parentid = deviceType.ParentDeviceTypeId,
                     children = GetNestedDeviceTypeForListDto(deviceType.Id)
                 };
 
@@ -141,21 +140,14 @@ namespace TestProject.Services
         }
 
 
-
-        //------------- RECURSIONS FOR PROPERTIES ---------------//
-
         
-
-
-
-
 
         //------------- RECURSIONS FOR PROPERTIES ---------------//
 
         public IEnumerable<DeviceTypeProperty> RecursionForType(int? id)
         {
             var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
-                .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.Id == id);
+                .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.ParentDeviceTypeId == id);
 
             if(deviceType == null) throw new UserFriendlyException("No Device Type at given Id");
 
@@ -166,50 +158,31 @@ namespace TestProject.Services
                 return properties;
             }
             
-            return properties.Concat(RecursionForType(deviceType.ParentDeviceTypeId));
+            return properties.Concat(RecursionForType(deviceType.Id));
         }
-        
+
+
+
+
         //------------- RECURSIONS FOR TYPE ---------------//
 
         public IEnumerable<DeviceType> ListOfDeviceTypes(int? id)
         {
+           var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+                .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.ParentDeviceTypeId == id);
 
-            var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
-                .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.Id == id);
+           var result = new List<DeviceType>();
 
-            int? parentId = deviceType.ParentDeviceTypeId;
-
-           var deviceTypes = new List<DeviceType>();
-           deviceTypes.Add(deviceType);
-
-           if (parentId == null)
+           if (deviceType.ParentDeviceTypeId == null)
            {
-               return deviceTypes;
+               result.Add(deviceType);
+               return result;
            }
 
-            return deviceTypes.Concat(ListOfDeviceTypes(parentId));
+           result.Add(deviceType);
+           return result.Concat(ListOfDeviceTypes(deviceType.ParentDeviceTypeId));
         }
 
-        //public List<DeviceTypeProperty> RecursionForProperties(DeviceType deviceType)
-        //{
-        //    List<DeviceTypeProperty> properties = new List<DeviceTypeProperty>();
-
-        //    var type = _deviceTypeRepository.GetAll().Include(x => x.ParentDeviceType).FirstOrDefault(x => x.Id == deviceType.Id);
-
-        //    var currentType = type;
-
-        //    while (currentType != null)
-        //    {
-        //        foreach (var property in currentType.DeviceTypeProperties)
-        //        {
-        //            properties.Add(property);
-        //        }
-
-        //        currentType = currentType.ParentDeviceType;
-        //    }
-
-        //    return properties;
-        //}
     }
 
 }
