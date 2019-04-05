@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using Abp.UI.Inputs;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
+using TestProject.DTO;
 using TestProject.Models;
 
 namespace TestProject.Services
@@ -34,11 +38,59 @@ namespace TestProject.Services
 
         //------------- GET TYPES/TYPE ---------------//
 
-        public List<DeviceType> GetAllDeviceTypes()
+        public List<DeviceTypeForListDto> GetAllDeviceTypes()
         {
             var deviceTypes = _deviceTypeRepository.GetAll().Include(x => x.ParentDeviceType).ToList();
 
-            return deviceTypes;
+            var result = ObjectMapper.Map<List<DeviceTypeForListDto>>(deviceTypes);
+
+            return result;
+        }
+
+        public List<DeviceTypeDto> ListOfDeviceTypePorperties(int? id)
+        {
+            var deviceTypes = ListOfDeviceTypes(id);
+
+            var result = new List<DeviceTypeDto>();
+
+            foreach (var deviceType in deviceTypes)
+            {
+                var deviceTypeDto = new DeviceTypeDto();
+
+                deviceTypeDto.Id = deviceType.Id;
+                deviceTypeDto.name = deviceType.Name;
+                deviceTypeDto.description = deviceType.Description;
+                deviceTypeDto.parentid = deviceType.ParentDeviceTypeId;
+                deviceTypeDto.properties =
+                    ObjectMapper.Map<List<DeviceTypePropertyDto>>(deviceType.DeviceTypeProperties);
+
+                result.Add(deviceTypeDto);
+            }
+
+            return result;
+        }
+
+        public List<DeviceTypeNestedDto> GetNestedDeviceTypeForListDto(int? parentId)
+        {
+            var baseDeviceTypes = _deviceTypeRepository.GetAll()
+                .Where(x => x.ParentDeviceTypeId == parentId).ToList();
+
+            var result = new List<DeviceTypeNestedDto>();
+
+            foreach (var deviceType in baseDeviceTypes)
+            {
+                var currentType = new DeviceTypeNestedDto
+                {
+                    Id = deviceType.Id,
+                    name = deviceType.Name,
+                    description = deviceType.Description,
+                    children = GetNestedDeviceTypeForListDto(deviceType.Id)
+                };
+
+                result.Add(currentType);
+            }
+
+            return result;
         }
 
         public DeviceType GetDeviceTypeById(int id)
@@ -47,6 +99,7 @@ namespace TestProject.Services
 
             return deviceType;
         }
+
 
 
         //------------- GET DEVICES/DEVICE ---------------//
@@ -115,26 +168,26 @@ namespace TestProject.Services
             
             return properties.Concat(RecursionForType(deviceType.ParentDeviceTypeId));
         }
-
-
-
+        
         //------------- RECURSIONS FOR TYPE ---------------//
 
         public IEnumerable<DeviceType> ListOfDeviceTypes(int? id)
         {
-           var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+
+            var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
                 .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.Id == id);
 
-           var deviceTypes = new List<DeviceType>();
-           deviceTypes.Add(deviceType.ParentDeviceType);
+            int? parentId = deviceType.ParentDeviceTypeId;
 
-           if (deviceType.ParentDeviceTypeId == null)
+           var deviceTypes = new List<DeviceType>();
+           deviceTypes.Add(deviceType);
+
+           if (parentId == null)
            {
-               deviceTypes.Add(deviceType);
                return deviceTypes;
            }
 
-            return deviceTypes.Concat(ListOfDeviceTypes(deviceType.ParentDeviceTypeId));
+            return deviceTypes.Concat(ListOfDeviceTypes(parentId));
         }
 
         //public List<DeviceTypeProperty> RecursionForProperties(DeviceType deviceType)

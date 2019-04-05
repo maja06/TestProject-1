@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Abp.Application.Services.Dto;
-using Abp.AutoMapper;
 using TestProject.Models;
 
 namespace TestProject.DTO
 {
-    public class DeviceTypeDto : EntityDto
+    public class DeviceTypeNestedDto : EntityDto
     {
         public string name { get; set; }
 
@@ -13,6 +15,6 @@ namespace TestProject.DTO
 
         public int? parentid { get; set; }
 
-        public List<DeviceTypePropertyDto> properties { get; set; } = new List<DeviceTypePropertyDto>();
+        public List<DeviceTypeNestedDto> children { get; set; } = new List<DeviceTypeNestedDto>();
     }
 }
