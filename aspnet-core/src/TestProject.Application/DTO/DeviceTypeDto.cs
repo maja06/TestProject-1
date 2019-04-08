@@ -5,14 +5,15 @@ using TestProject.Models;
 
 namespace TestProject.DTO
 {
-    public class DeviceTypeDto : EntityDto
+    public class DeviceTypeDto
     {
-        public string name { get; set; }
+        public int Id { get; set; }
 
-        public string description { get; set; }
+        public string Name { get; set; }
 
-        public int? parentid { get; set; }
+        public string Description { get; set; }
 
-        public List<DeviceTypePropertyDto> properties { get; set; } = new List<DeviceTypePropertyDto>();
+        public int? ParentId { get; set; }
+
     }
 }

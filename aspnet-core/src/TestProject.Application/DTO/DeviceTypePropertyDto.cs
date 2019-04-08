@@ -10,10 +10,10 @@ namespace TestProject.DTO
 {
     public class DeviceTypePropertyDto : EntityDto
     {
-        public string nameProperty { get; set; }
+        public string NameProperty { get; set; }
 
-        public string type { get; set; }
+        public string Type { get; set; }
         
-        public bool required { get; set; }
+        public bool Required { get; set; }
     }
 }

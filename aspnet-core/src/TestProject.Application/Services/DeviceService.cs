@@ -37,38 +37,36 @@ namespace TestProject.Services
 
         //------------- GET TYPES/TYPE ---------------//
 
-        public List<DeviceTypeForListDto> GetAllDeviceTypes()
+        public IEnumerable<DeviceTypePropertiesDto> GetdDeviceTypePropertiesNestedDtos(int? deviceTypeId)
         {
-            var deviceTypes = _deviceTypeRepository.GetAll().Include(x => x.ParentDeviceType).ToList();
+            var type = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+                .First(x => x.Id == deviceTypeId);
 
-            var result = ObjectMapper.Map<List<DeviceTypeForListDto>>(deviceTypes);
+            var result = new List<DeviceTypePropertiesDto>();
 
-            return result;
-        }
-
-        public List<DeviceTypeDto> ListOfDeviceTypeProperties(int? id)
-        {
-            var deviceTypes = ListOfDeviceTypes(id);
-
-            var result = new List<DeviceTypeDto>();
-
-            foreach (var deviceType in deviceTypes)
+            var currentType = new DeviceTypePropertiesDto()
             {
-                var deviceTypeDto = new DeviceTypeDto();
+                Id = type.Id,
+                Name = type.Name,
+                Description = type.Description,
+                ParentId = type.ParentDeviceTypeId,
+                Properties = ObjectMapper.Map<List<DeviceTypePropertyDto>>(type.DeviceTypeProperties)
 
-                deviceTypeDto.Id = deviceType.Id;
-                deviceTypeDto.name = deviceType.Name;
-                deviceTypeDto.description = deviceType.Description;
-                deviceTypeDto.parentid = deviceType.ParentDeviceTypeId;
-                deviceTypeDto.properties =
-                    ObjectMapper.Map<List<DeviceTypePropertyDto>>(deviceType.DeviceTypeProperties);
+            };
 
-                result.Add(deviceTypeDto);
+            if (type.ParentDeviceTypeId == null)
+            {
+                result.Add(currentType);
+                return result;
             }
-            return result;
+
+            result.Add(currentType);
+
+            return result.Concat(GetdDeviceTypePropertiesNestedDtos(type.ParentDeviceTypeId)).OrderBy(x => x.Id);
+
         }
 
-        public List<DeviceTypeNestedDto> GetNestedDeviceTypeForListDto(int? parentId)
+        public List<DeviceTypeNestedDto> GetDeviceTypeNestedDtos(int? parentId)
         {
             var baseDeviceTypes = _deviceTypeRepository.GetAll()
                 .Where(x => x.ParentDeviceTypeId == parentId).ToList();
@@ -80,10 +78,10 @@ namespace TestProject.Services
                 var currentType = new DeviceTypeNestedDto
                 {
                     Id = deviceType.Id,
-                    name = deviceType.Name,
-                    description = deviceType.Description,
-                    parentid = deviceType.ParentDeviceTypeId,
-                    children = GetNestedDeviceTypeForListDto(deviceType.Id)
+                    Name = deviceType.Name,
+                    Description = deviceType.Description,
+                    ParentId = deviceType.ParentDeviceTypeId,
+                    Children = GetDeviceTypeNestedDtos(deviceType.Id)
                 };
 
                 result.Add(currentType);
@@ -121,22 +119,41 @@ namespace TestProject.Services
 
         //------------- CREATE TYPE ---------------//
 
-        public void CreateDeviceType(DeviceType deviceType)
+        public IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto deviceTypeDto)
         {
-            
+            if (deviceTypeDto.Id == 0)
+            {
+                DeviceType newDeviceType = ObjectMapper.Map<DeviceType>(deviceTypeDto);
 
+                var id = _deviceTypeRepository.InsertAndGetId(newDeviceType);
+
+                var deviceTypes = GetdDeviceTypePropertiesNestedDtos(id);
+
+                return deviceTypes;
+            }
+
+            var targetDeviceType = _deviceTypeRepository.Get(deviceTypeDto.Id);
+
+            ObjectMapper.Map(deviceTypeDto, targetDeviceType);
+
+            var updatedDeviceTypes = GetdDeviceTypePropertiesNestedDtos(targetDeviceType.Id);
+
+            return updatedDeviceTypes;
         }
 
 
         //------------- CREATE DEVICE ---------------//
 
-        public void CreateDevice(Device device)
+        public void UpdateDeviceTypeProperties(DeviceTypePropertiesDto deviceTypePoPropertiesDto)
         {
-            Device newDevice = new Device();
+            var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+                .First(x => x.Id == deviceTypePoPropertiesDto.Id);
 
+            foreach (var property in deviceTypePoPropertiesDto.Properties)
+            {
+                deviceType.DeviceTypeProperties.Add(ObjectMapper.Map<DeviceTypeProperty>(property));
+            }
             
-
-
         }
 
 
@@ -144,44 +161,43 @@ namespace TestProject.Services
 
         //------------- RECURSIONS FOR PROPERTIES ---------------//
 
-        public IEnumerable<DeviceTypeProperty> RecursionForType(int? id)
-        {
-            var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
-                .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.ParentDeviceTypeId == id);
+        //public IEnumerable<DeviceTypeProperty> RecursionForType(int? id)
+        //{
+        //    var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+        //        .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.ParentDeviceTypeId == id);
 
-            if(deviceType == null) throw new UserFriendlyException("No Device Type at given Id");
+        //    if(deviceType == null) throw new UserFriendlyException("No Device Type at given Id");
 
-            List<DeviceTypeProperty> properties = deviceType.DeviceTypeProperties;
+        //    List<DeviceTypeProperty> properties = deviceType.DeviceTypeProperties;
             
-            if (deviceType.ParentDeviceTypeId == null)
-            {
-                return properties;
-            }
+        //    if (deviceType.ParentDeviceTypeId == null)
+        //    {
+        //        return properties;
+        //    }
             
-            return properties.Concat(RecursionForType(deviceType.Id));
-        }
+        //    return properties.Concat(RecursionForType(deviceType.Id));
+        //}
 
-
-
+        
 
         //------------- RECURSIONS FOR TYPE ---------------//
 
-        public IEnumerable<DeviceType> ListOfDeviceTypes(int? id)
-        {
-           var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
-                .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.ParentDeviceTypeId == id);
+        //public IEnumerable<DeviceType> ListOfDeviceTypes(int? id)
+        //{
+        //   var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+        //        .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.ParentDeviceTypeId == id);
 
-           var result = new List<DeviceType>();
+        //   var result = new List<DeviceType>();
 
-           if (deviceType.ParentDeviceTypeId == null)
-           {
-               result.Add(deviceType);
-               return result;
-           }
+        //   if (deviceType.ParentDeviceTypeId == null)
+        //   {
+        //       result.Add(deviceType);
+        //       return result;
+        //   }
 
-           result.Add(deviceType);
-           return result.Concat(ListOfDeviceTypes(deviceType.ParentDeviceTypeId));
-        }
+        //   result.Add(deviceType);
+        //   return result.Concat(ListOfDeviceTypes(deviceType.ParentDeviceTypeId));
+        //}
 
     }
 

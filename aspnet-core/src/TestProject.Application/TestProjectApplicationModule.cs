@@ -34,26 +34,33 @@ namespace TestProject
                     cfg.AddProfiles(thisAssembly);
 
                     cfg.CreateMap<DeviceType, DeviceTypeDto>()
-                        .ForMember(dest => dest.name, source => source.MapFrom(src => src.Name))
-                        .ForMember(dest => dest.description, source => source.MapFrom(src => src.Description))
-                        .ForMember(dest => dest.parentid, source => source.MapFrom(src => src.ParentDeviceType.Id))
-                        .ForMember(dest => dest.properties, source => source.MapFrom(src => src.DeviceTypeProperties));
+                        .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
+                        .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
+                        .ForMember(dest => dest.ParentId, source => source.MapFrom(src => src.ParentDeviceType.Id));
 
-                    cfg.CreateMap<DeviceType, DeviceTypeForListDto>()
-                        .ForMember(dest => dest.name, source => source.MapFrom(src => src.Name))
-                        .ForMember(dest => dest.description, source => source.MapFrom(src => src.Description))
-                        .ForMember(dest => dest.parentid, source => source.MapFrom(src => src.ParentDeviceType.Id));
+                    cfg.CreateMap<DeviceTypeDto, DeviceType>()
+                        .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
+                        .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
+                        .ForMember(dest => dest.ParentDeviceTypeId, source => source.MapFrom(src => src.ParentId))
+                        .ForMember(dest => dest.ParentDeviceType, source => source.Ignore());
+                        
 
                     cfg.CreateMap<DeviceType, DeviceTypeNestedDto>()
-                        .ForMember(dest => dest.name, source => source.MapFrom(src => src.Name))
-                        .ForMember(dest => dest.description, source => source.MapFrom(src => src.Description))
-                        .ForMember(dest => dest.parentid, source => source.MapFrom(src => src.ParentDeviceType.Id))
-                        .ForMember(dest => dest.children, source => source.Ignore());
+                        .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
+                        .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
+                        .ForMember(dest => dest.ParentId, source => source.MapFrom(src => src.ParentDeviceType.Id))
+                        .ForMember(dest => dest.Children, source => source.Ignore());
 
+                    cfg.CreateMap<DeviceType, DeviceTypePropertiesDto>()
+                        .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
+                        .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
+                        .ForMember(dest => dest.ParentId, source => source.MapFrom(src => src.ParentDeviceType.Id))
+                        .ForMember(dest => dest.Properties, source => source.MapFrom(src => src.DeviceTypeProperties));
+                    
                     cfg.CreateMap<DeviceTypeProperty, DeviceTypePropertyDto>()
-                        .ForMember(dest => dest.nameProperty, source => source.MapFrom(src => src.Name))
-                        .ForMember(dest => dest.required, source => source.MapFrom(src => src.isRequired))
-                        .ForMember(dest => dest.type, source => source.MapFrom(src => src.Type));
+                        .ForMember(dest => dest.NameProperty, source => source.MapFrom(src => src.Name))
+                        .ForMember(dest => dest.Required, source => source.MapFrom(src => src.isRequired))
+                        .ForMember(dest => dest.Type, source => source.MapFrom(src => src.Type));
                 }
             );
         }
