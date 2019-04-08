@@ -10,12 +10,10 @@ using TestProject.Models;
 
 namespace TestProject.Services
 {
-    public class DeviceService : TestProjectAppServiceBase, IDeviceService
+    public class DeviceTypeService : TestProjectAppServiceBase, IDeviceTypeService
     {
-        private readonly IRepository<Device> _deviceRepository;
         private readonly IRepository<DeviceType> _deviceTypeRepository;
         private readonly IRepository<DeviceTypeProperty> _propertyRepository;
-        private readonly IRepository<DevicePropertyValue> _valueRepository;
 
 
         /// <summary>
@@ -25,19 +23,17 @@ namespace TestProject.Services
         /// <param name="deviceTypeRepository">The device type repository.</param>
         /// <param name="propertyRepository">The property repository.</param>
         /// <param name="valueRepository">The value repository.</param>
-        public DeviceService(IRepository<Device> deviceRepository, IRepository<DeviceType> deviceTypeRepository, IRepository<DeviceTypeProperty> propertyRepository, IRepository<DevicePropertyValue> valueRepository)
+        public DeviceTypeService(IRepository<DeviceType> deviceTypeRepository, IRepository<DeviceTypeProperty> propertyRepository)
         {
-            _deviceRepository = deviceRepository;
             _deviceTypeRepository = deviceTypeRepository;
             _propertyRepository = propertyRepository;
-            _valueRepository = valueRepository;
         }
 
 
 
         //------------- GET TYPES/TYPE ---------------//
 
-        public IEnumerable<DeviceTypePropertiesDto> GetdDeviceTypePropertiesNestedDtos(int? deviceTypeId)
+        public IEnumerable<DeviceTypePropertiesDto> GetdDeviceTypePropertiesDtos(int? deviceTypeId)
         {
             var type = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
                 .First(x => x.Id == deviceTypeId);
@@ -62,7 +58,7 @@ namespace TestProject.Services
 
             result.Add(currentType);
 
-            return result.Concat(GetdDeviceTypePropertiesNestedDtos(type.ParentDeviceTypeId)).OrderBy(x => x.Id);
+            return result.Concat(GetdDeviceTypePropertiesDtos(type.ParentDeviceTypeId)).OrderBy(x => x.Id);
 
         }
 
@@ -98,25 +94,6 @@ namespace TestProject.Services
         }
 
 
-
-        //------------- GET DEVICES/DEVICE ---------------//
-
-        public List<Device> GetAllDevices()
-        {
-            var devices = _deviceRepository.GetAll().Include(x => x.DeviceType).ThenInclude(x => x.DeviceTypeProperties).ToList();
-
-            return devices;
-        }
-        
-        public Device GetDeviceById(int id)
-        {
-            var device = _deviceRepository.GetAll().Include(x => x.DeviceType).ThenInclude(x => x.DeviceTypeProperties).FirstOrDefault(x => x.Id == id);
-
-            return device;
-        }
-
-
-
         //------------- CREATE TYPE ---------------//
 
         public IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto deviceTypeDto)
@@ -127,7 +104,7 @@ namespace TestProject.Services
 
                 var id = _deviceTypeRepository.InsertAndGetId(newDeviceType);
 
-                var deviceTypes = GetdDeviceTypePropertiesNestedDtos(id);
+                var deviceTypes = GetdDeviceTypePropertiesDtos(id);
 
                 return deviceTypes;
             }
@@ -136,13 +113,13 @@ namespace TestProject.Services
 
             ObjectMapper.Map(deviceTypeDto, targetDeviceType);
 
-            var updatedDeviceTypes = GetdDeviceTypePropertiesNestedDtos(targetDeviceType.Id);
+            var updatedDeviceTypes = GetdDeviceTypePropertiesDtos(targetDeviceType.Id);
 
             return updatedDeviceTypes;
         }
 
 
-        //------------- CREATE DEVICE ---------------//
+        //------------- CREATE PROPERTIES FOR TYPE ---------------//
 
         public void UpdateDeviceTypeProperties(DeviceTypePropertyUpdateDto deviceTypePropertyUpdateDto)
         {
@@ -154,57 +131,12 @@ namespace TestProject.Services
                 _propertyRepository.Insert(new DeviceTypeProperty
                 {
                     Name = property.NameProperty,
-                    isRequired = property.Required,
+                    IsRequired = property.Required,
                     Type = property.Type,
                     DeviceTypeId = deviceType.Id
                 });
             }
-            
         }
-
-
-        
-
-        //------------- RECURSIONS FOR PROPERTIES ---------------//
-
-        //public IEnumerable<DeviceTypeProperty> RecursionForType(int? id)
-        //{
-        //    var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
-        //        .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.ParentDeviceTypeId == id);
-
-        //    if(deviceType == null) throw new UserFriendlyException("No Device Type at given Id");
-
-        //    List<DeviceTypeProperty> properties = deviceType.DeviceTypeProperties;
-            
-        //    if (deviceType.ParentDeviceTypeId == null)
-        //    {
-        //        return properties;
-        //    }
-            
-        //    return properties.Concat(RecursionForType(deviceType.Id));
-        //}
-
-        
-
-        //------------- RECURSIONS FOR TYPE ---------------//
-
-        //public IEnumerable<DeviceType> ListOfDeviceTypes(int? id)
-        //{
-        //   var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
-        //        .Include(x => x.ParentDeviceType).FirstOrDefault(x => x.ParentDeviceTypeId == id);
-
-        //   var result = new List<DeviceType>();
-
-        //   if (deviceType.ParentDeviceTypeId == null)
-        //   {
-        //       result.Add(deviceType);
-        //       return result;
-        //   }
-
-        //   result.Add(deviceType);
-        //   return result.Concat(ListOfDeviceTypes(deviceType.ParentDeviceTypeId));
-        //}
-
     }
 
 }

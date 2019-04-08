@@ -23,6 +23,6 @@ namespace TestProject.Models
         [ForeignKey("DeviceTypeId")]
         public DeviceType DeviceType { get; set; }
 
-        public bool isRequired { get; set; }
+        public bool IsRequired { get; set; }
     }
 }

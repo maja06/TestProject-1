@@ -3,6 +3,7 @@ using Abp.Modules;
 using Abp.Reflection.Extensions;
 using TestProject.Authorization;
 using TestProject.DTO;
+using TestProject.DTO.Device;
 using TestProject.Models;
 
 namespace TestProject
@@ -15,9 +16,6 @@ namespace TestProject
         public override void PreInitialize()
         {
             Configuration.Authorization.Providers.Add<TestProjectAuthorizationProvider>();
-
-
-
 
         }
 
@@ -33,6 +31,11 @@ namespace TestProject
                 {
                     cfg.AddProfiles(thisAssembly);
 
+                    
+
+                    // ----------------- CUSTOM MAPPINGS -----------------//
+
+                    // ------------------- DEVICE TYPE ------------------//
                     cfg.CreateMap<DeviceType, DeviceTypeDto>()
                         .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
                         .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
@@ -59,12 +62,20 @@ namespace TestProject
                     
                     cfg.CreateMap<DeviceTypeProperty, DeviceTypePropertyDto>()
                         .ForMember(dest => dest.NameProperty, source => source.MapFrom(src => src.Name))
-                        .ForMember(dest => dest.Required, source => source.MapFrom(src => src.isRequired))
+                        .ForMember(dest => dest.Required, source => source.MapFrom(src => src.IsRequired))
                         .ForMember(dest => dest.Type, source => source.MapFrom(src => src.Type));
 
                     cfg.CreateMap<DeviceTypePropertyUpdateDto, DeviceType>()
                         .ForMember(dest => dest.Id, source => source.MapFrom(src => src.Id))
                         .ForMember(dest => dest.DeviceTypeProperties, source => source.MapFrom(src => src.Properties));
+
+
+                    // ------------------- DEVICE TYPE ------------------//
+                    cfg.CreateMap<Device, DeviceDto>()
+                        .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
+                        .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
+                        .ForMember(dest => dest.DeviceTypeName, source => source.MapFrom(src => src.DeviceType.Name));
+
                 }
             );
         }

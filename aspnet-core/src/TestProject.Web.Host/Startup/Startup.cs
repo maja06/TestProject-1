@@ -32,8 +32,13 @@ namespace TestProject.Web.Host.Startup
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            // MVC
-            services.AddMvc(
+
+            // ------------- CORS -----------------//
+            
+
+
+                // MVC
+                services.AddMvc(
                 options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
             );
 
