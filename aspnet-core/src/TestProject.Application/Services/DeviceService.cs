@@ -144,14 +144,20 @@ namespace TestProject.Services
 
         //------------- CREATE DEVICE ---------------//
 
-        public void UpdateDeviceTypeProperties(DeviceTypePropertiesDto deviceTypePoPropertiesDto)
+        public void UpdateDeviceTypeProperties(DeviceTypePropertyUpdateDto deviceTypePropertyUpdateDto)
         {
             var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
-                .First(x => x.Id == deviceTypePoPropertiesDto.Id);
+                .First(x => x.Id == deviceTypePropertyUpdateDto.Id);
 
-            foreach (var property in deviceTypePoPropertiesDto.Properties)
+            foreach (var property in deviceTypePropertyUpdateDto.Properties)
             {
-                deviceType.DeviceTypeProperties.Add(ObjectMapper.Map<DeviceTypeProperty>(property));
+                _propertyRepository.Insert(new DeviceTypeProperty
+                {
+                    Name = property.NameProperty,
+                    isRequired = property.Required,
+                    Type = property.Type,
+                    DeviceTypeId = deviceType.Id
+                });
             }
             
         }
