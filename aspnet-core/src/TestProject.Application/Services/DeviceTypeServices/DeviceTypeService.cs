@@ -1,46 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Abp.Domain.Repositories;
-using Abp.Extensions;
-using Abp.UI;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
-using TestProject.DTO;
+using TestProject.DTO.DeviceTypeDtos;
 using TestProject.Models;
+using TestProject.Services.DeviceServices;
 
-namespace TestProject.Services
+namespace TestProject.Services.DeviceTypeServices
 {
     public class DeviceTypeService : TestProjectAppServiceBase, IDeviceTypeService
     {
         private readonly IRepository<DeviceType> _deviceTypeRepository;
         private readonly IRepository<DeviceTypeProperty> _propertyRepository;
+        private readonly IRepository<Device> _deviceRepository;
+        private readonly IRepository<DevicePropertyValue> _valueRepository;
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DeviceService"/> class.
+        ///     Initializes a new instance of the <see cref="DeviceService" /> class.
         /// </summary>
         /// <param name="deviceRepository">The device repository.</param>
         /// <param name="deviceTypeRepository">The device type repository.</param>
         /// <param name="propertyRepository">The property repository.</param>
         /// <param name="valueRepository">The value repository.</param>
-        public DeviceTypeService(IRepository<DeviceType> deviceTypeRepository, IRepository<DeviceTypeProperty> propertyRepository)
+        public DeviceTypeService(IRepository<DeviceType> deviceTypeRepository,
+            IRepository<DeviceTypeProperty> propertyRepository, IRepository<Device> deviceRepository, IRepository<DevicePropertyValue> valueRepository)
         {
             _deviceTypeRepository = deviceTypeRepository;
             _propertyRepository = propertyRepository;
+            _deviceRepository = deviceRepository;
+            _valueRepository = valueRepository;
         }
 
 
 
-        //------------- GET TYPES/TYPE ---------------//
+        //------------------------GET FLAT LIST OF TYPES WITH PROPERTIES -------------------------//
 
-        /// <summary>
-        /// Getds the device type properties dtos.
-        /// </summary>
-        /// <param name="deviceTypeId">The device type identifier.</param>
-        /// <returns></returns>
         public IEnumerable<DeviceTypePropertiesDto> GetdDeviceTypePropertiesDtos(int? deviceTypeId)
         {
             var type = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
@@ -48,14 +43,13 @@ namespace TestProject.Services
 
             var result = new List<DeviceTypePropertiesDto>();
 
-            var currentType = new DeviceTypePropertiesDto()
+            var currentType = new DeviceTypePropertiesDto
             {
                 Id = type.Id,
                 Name = type.Name,
                 Description = type.Description,
                 ParentId = type.ParentDeviceTypeId,
                 Properties = ObjectMapper.Map<List<DeviceTypePropertyDto>>(type.DeviceTypeProperties)
-
             };
 
             if (type.ParentDeviceTypeId == null)
@@ -67,14 +61,12 @@ namespace TestProject.Services
             result.Add(currentType);
 
             return result.Concat(GetdDeviceTypePropertiesDtos(type.ParentDeviceTypeId)).OrderBy(x => x.Id);
-
         }
 
-        /// <summary>
-        /// Gets the device type nested dtos.
-        /// </summary>
-        /// <param name="parentId">The parent identifier.</param>
-        /// <returns></returns>
+
+
+        // ------------------------------ GET NESTED LIST OF TYPES -------------------------------//
+
         public List<DeviceTypeNestedDto> GetDeviceTypeNestedDtos(int? parentId)
         {
             var baseDeviceTypes = _deviceTypeRepository.GetAll()
@@ -99,20 +91,9 @@ namespace TestProject.Services
             return result;
         }
 
-        /// <summary>
-        /// Gets the device type by identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        public DeviceType GetDeviceTypeById(int id)
-        {
-            var deviceType = _deviceTypeRepository.Get(id);
-
-            return deviceType;
-        }
 
 
-        //------------- CREATE TYPE ---------------//
+        //-------------------------- CREATE NEW TYPE -------------------------------//
 
         public IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto deviceTypeDto)
         {
@@ -137,7 +118,8 @@ namespace TestProject.Services
         }
 
 
-        //------------- CREATE PROPERTIES FOR TYPE ---------------//
+
+        //---------------------- CREATE PROPERTIES FOR TYPE -----------------------//
 
         public void UpdateDeviceTypeProperties(DeviceTypePropertyUpdateDto deviceTypePropertyUpdateDto)
         {
@@ -145,7 +127,6 @@ namespace TestProject.Services
                 .First(x => x.Id == deviceTypePropertyUpdateDto.Id);
 
             foreach (var property in deviceTypePropertyUpdateDto.Properties)
-            {
                 _propertyRepository.Insert(new DeviceTypeProperty
                 {
                     Name = property.NameProperty,
@@ -153,39 +134,69 @@ namespace TestProject.Services
                     Type = property.Type,
                     DeviceTypeId = deviceType.Id
                 });
-            }
         }
 
+        
 
 
-        // ----------------- DELETE TYPE ------------------//
+        // --------------------------- DELETE TYPE ------------------------------//
 
         public void Delete(int id)
         {
+            var types = GetTypesToDelete(id).ToList();
 
+            var orderedTypes = types.OrderByDescending(x => x.Id);
 
-            var deviceType = _deviceTypeRepository.Get(id);
-
-            try
+            foreach (var type in orderedTypes)
             {
-                _deviceTypeRepository.Delete(deviceType);
+                var devices = type.Devices;
 
+                foreach (var device in devices)
+                {
+                    var values = device.DevicePropertyValues;
 
-            }
+                    foreach (var value in values)
+                    {
+                        _valueRepository.Delete(value);
+                    }
 
-            catch (Exception ex)
-            {
-                var e = ex.GetBaseException();
+                    _deviceRepository.Delete(device);
+                }
 
+                _deviceTypeRepository.Delete(type);
             }
         }
 
 
 
+        // ------------------- GET LIST OF SUBTYPES TO DELETE ---------------------//
 
+        public IEnumerable<DeviceType> GetTypesToDelete(int parentId)
+        {
+            var type = _deviceTypeRepository.GetAll().Include(x => x.Devices).ThenInclude(x => x.DevicePropertyValues)
+                .Include(x => x.DeviceTypeProperties)
+                .First(x => x.Id == parentId);
 
+            var children = _deviceTypeRepository.GetAll().Include(x => x.Devices).ThenInclude(x => x.DevicePropertyValues)
+                .Include(x => x.DeviceTypeProperties)
+                .Where(x => x.ParentDeviceTypeId == parentId).ToList();
 
+            var list = new List<DeviceType>();
 
+            if (!children.Any())
+            {
+                list.Add(type);
+                return list;
+            }
+
+            foreach (var child in children)
+            {
+                list.AddRange(GetTypesToDelete(child.Id));
+            }
+
+            list.Add(type);
+            return list;
+
+        }
     }
-
 }

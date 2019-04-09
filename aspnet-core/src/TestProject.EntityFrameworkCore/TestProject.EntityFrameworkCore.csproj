@@ -19,6 +19,7 @@
     <Compile Remove="Migrations\20190409085307_Second.cs" />
     <Compile Remove="Migrations\20190409085442_Second.cs" />
     <Compile Remove="Migrations\20190409091743_add-migration First.cs" />
+    <Compile Remove="Migrations\20190409124139_Second.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />

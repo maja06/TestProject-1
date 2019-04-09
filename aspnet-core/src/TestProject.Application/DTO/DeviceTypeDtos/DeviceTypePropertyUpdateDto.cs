@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Abp.Application.Services.Dto;
-using Abp.AutoMapper;
-using TestProject.Models;
 
-namespace TestProject.DTO
+namespace TestProject.DTO.DeviceTypeDtos
 {
     public class DeviceTypePropertyUpdateDto : EntityDto
     {

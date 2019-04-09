@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Abp.Application.Services.Dto;
 
-namespace TestProject.DTO
+namespace TestProject.DTO.DeviceTypeDtos
 {
     public class DeviceTypeNestedDto : EntityDto
     {

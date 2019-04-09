@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Abp.Application.Services;
-using TestProject.DTO;
-using TestProject.Models;
+using TestProject.DTO.DeviceTypeDtos;
 
-namespace TestProject.Services
+namespace TestProject.Services.DeviceTypeServices
 {
     public interface IDeviceTypeService : IApplicationService
     {
@@ -13,11 +10,8 @@ namespace TestProject.Services
 
         List<DeviceTypeNestedDto> GetDeviceTypeNestedDtos(int? parentId);
 
-        DeviceType GetDeviceTypeById(int id);
-        
         IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto deviceTypeDto);
 
         void UpdateDeviceTypeProperties(DeviceTypePropertyUpdateDto deviceTypePropertyUpdateDto);
-        
     }
 }

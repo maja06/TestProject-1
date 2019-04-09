@@ -2,21 +2,20 @@
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using TestProject.Authorization;
-using TestProject.DTO;
-using TestProject.DTO.Device;
+using TestProject.DTO.DeviceDtos;
+using TestProject.DTO.DeviceTypeDtos;
 using TestProject.Models;
 
 namespace TestProject
 {
     [DependsOn(
-        typeof(TestProjectCoreModule), 
+        typeof(TestProjectCoreModule),
         typeof(AbpAutoMapperModule))]
     public class TestProjectApplicationModule : AbpModule
     {
         public override void PreInitialize()
         {
             Configuration.Authorization.Providers.Add<TestProjectAuthorizationProvider>();
-
         }
 
         public override void Initialize()
@@ -31,7 +30,6 @@ namespace TestProject
                 {
                     cfg.AddProfiles(thisAssembly);
 
-                    
 
                     // ----------------- CUSTOM MAPPINGS -----------------//
 
@@ -46,7 +44,7 @@ namespace TestProject
                         .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
                         .ForMember(dest => dest.ParentDeviceTypeId, source => source.MapFrom(src => src.ParentId))
                         .ForMember(dest => dest.ParentDeviceType, source => source.Ignore());
-                        
+
 
                     cfg.CreateMap<DeviceType, DeviceTypeNestedDto>()
                         .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
@@ -59,7 +57,7 @@ namespace TestProject
                         .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
                         .ForMember(dest => dest.ParentId, source => source.MapFrom(src => src.ParentDeviceType.Id))
                         .ForMember(dest => dest.Properties, source => source.MapFrom(src => src.DeviceTypeProperties));
-                    
+
                     cfg.CreateMap<DeviceTypeProperty, DeviceTypePropertyDto>()
                         .ForMember(dest => dest.NameProperty, source => source.MapFrom(src => src.Name))
                         .ForMember(dest => dest.Required, source => source.MapFrom(src => src.IsRequired))

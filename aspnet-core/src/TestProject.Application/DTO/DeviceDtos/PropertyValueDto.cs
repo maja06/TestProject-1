@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TestProject.DTO.Device
+﻿namespace TestProject.DTO.DeviceDtos
 {
     public class PropertyValueDto
     {

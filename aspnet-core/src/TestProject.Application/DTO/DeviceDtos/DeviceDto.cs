@@ -1,6 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 
-namespace TestProject.DTO.Device
+namespace TestProject.DTO.DeviceDtos
 {
     public class DeviceDto : EntityDto
     {
@@ -9,6 +9,5 @@ namespace TestProject.DTO.Device
         public string Description { get; set; }
 
         public string DeviceTypeName { get; set; }
-
     }
 }

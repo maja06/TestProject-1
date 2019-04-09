@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using Abp.Application.Services.Dto;
-using Abp.AutoMapper;
-using TestProject.Models;
-
-namespace TestProject.DTO
+﻿namespace TestProject.DTO.DeviceTypeDtos
 {
     public class DeviceTypeDto
     {
@@ -14,6 +9,5 @@ namespace TestProject.DTO
         public string Description { get; set; }
 
         public int? ParentId { get; set; }
-
     }
 }
