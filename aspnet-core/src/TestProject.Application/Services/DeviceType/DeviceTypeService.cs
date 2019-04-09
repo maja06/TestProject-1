@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Abp.UI;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +36,11 @@ namespace TestProject.Services
 
         //------------- GET TYPES/TYPE ---------------//
 
+        /// <summary>
+        /// Getds the device type properties dtos.
+        /// </summary>
+        /// <param name="deviceTypeId">The device type identifier.</param>
+        /// <returns></returns>
         public IEnumerable<DeviceTypePropertiesDto> GetdDeviceTypePropertiesDtos(int? deviceTypeId)
         {
             var type = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
@@ -62,6 +70,11 @@ namespace TestProject.Services
 
         }
 
+        /// <summary>
+        /// Gets the device type nested dtos.
+        /// </summary>
+        /// <param name="parentId">The parent identifier.</param>
+        /// <returns></returns>
         public List<DeviceTypeNestedDto> GetDeviceTypeNestedDtos(int? parentId)
         {
             var baseDeviceTypes = _deviceTypeRepository.GetAll()
@@ -86,6 +99,11 @@ namespace TestProject.Services
             return result;
         }
 
+        /// <summary>
+        /// Gets the device type by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public DeviceType GetDeviceTypeById(int id)
         {
             var deviceType = _deviceTypeRepository.Get(id);
@@ -137,6 +155,37 @@ namespace TestProject.Services
                 });
             }
         }
+
+
+
+        // ----------------- DELETE TYPE ------------------//
+
+        public void Delete(int id)
+        {
+
+
+            var deviceType = _deviceTypeRepository.Get(id);
+
+            try
+            {
+                _deviceTypeRepository.Delete(deviceType);
+
+
+            }
+
+            catch (Exception ex)
+            {
+                var e = ex.GetBaseException();
+
+            }
+        }
+
+
+
+
+
+
+
     }
 
 }

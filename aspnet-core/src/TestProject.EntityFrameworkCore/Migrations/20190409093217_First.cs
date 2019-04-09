@@ -50,7 +50,7 @@ namespace TestProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DevieTypeProperties",
+                name: "DeviceTypeProperties",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -59,13 +59,13 @@ namespace TestProject.Migrations
                     Type = table.Column<string>(nullable: true),
                     MachineKey = table.Column<string>(nullable: true),
                     DeviceTypeId = table.Column<int>(nullable: false),
-                    isRequired = table.Column<bool>(nullable: false)
+                    IsRequired = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DevieTypeProperties", x => x.Id);
+                    table.PrimaryKey("PK_DeviceTypeProperties", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DevieTypeProperties_DeviceTypes_DeviceTypeId",
+                        name: "FK_DeviceTypeProperties_DeviceTypes_DeviceTypeId",
                         column: x => x.DeviceTypeId,
                         principalTable: "DeviceTypes",
                         principalColumn: "Id",
@@ -92,11 +92,11 @@ namespace TestProject.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DevicePropertyValues_DevieTypeProperties_DeviceTypePropertyId",
+                        name: "FK_DevicePropertyValues_DeviceTypeProperties_DeviceTypePropertyId",
                         column: x => x.DeviceTypePropertyId,
-                        principalTable: "DevieTypeProperties",
+                        principalTable: "DeviceTypeProperties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -115,14 +115,14 @@ namespace TestProject.Migrations
                 column: "DeviceTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DeviceTypeProperties_DeviceTypeId",
+                table: "DeviceTypeProperties",
+                column: "DeviceTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DeviceTypes_ParentDeviceTypeId",
                 table: "DeviceTypes",
                 column: "ParentDeviceTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DevieTypeProperties_DeviceTypeId",
-                table: "DevieTypeProperties",
-                column: "DeviceTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -134,7 +134,7 @@ namespace TestProject.Migrations
                 name: "Devices");
 
             migrationBuilder.DropTable(
-                name: "DevieTypeProperties");
+                name: "DeviceTypeProperties");
 
             migrationBuilder.DropTable(
                 name: "DeviceTypes");

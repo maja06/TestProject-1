@@ -1106,6 +1106,8 @@ namespace TestProject.Migrations
 
                     b.Property<int>("DeviceTypeId");
 
+                    b.Property<bool>("IsRequired");
+
                     b.Property<string>("MachineKey");
 
                     b.Property<string>("Name")
@@ -1114,13 +1116,11 @@ namespace TestProject.Migrations
 
                     b.Property<string>("Type");
 
-                    b.Property<bool>("isRequired");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DeviceTypeId");
 
-                    b.ToTable("DevieTypeProperties");
+                    b.ToTable("DeviceTypeProperties");
                 });
 
             modelBuilder.Entity("TestProject.MultiTenancy.Tenant", b =>

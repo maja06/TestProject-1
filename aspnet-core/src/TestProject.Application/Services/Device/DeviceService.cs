@@ -48,7 +48,12 @@ namespace TestProject.Services
             return deviceTypes;
         }
 
-        public IEnumerable<DeviceTypePropertiesDto> GetDeviceTypePropertiesDtos(int id)
+
+
+
+        // --------------- CREATE DEVICE -----------------//
+
+        public IEnumerable<DeviceTypePropertiesDto> GetDeviceTypeListDtos(int id)
         {
             var deviceTypes = _deviceTypeService.GetdDeviceTypePropertiesDtos(id);
 
@@ -57,6 +62,76 @@ namespace TestProject.Services
 
 
 
+
+        public void CreateOrUpdateDevice(CreateDeviceDto device)
+        {
+            if (device.Id == 0)
+            {
+                Device newDevice = new Device
+                {
+                    Name = device.DeviceName,
+                    Description = device.Description,
+                    DevicePropertyValues = new List<DevicePropertyValue>()
+                    
+                };
+
+                var valueList = new List<DevicePropertyValue>();
+
+                var maxDeviceTypeId = device.DeviceTypes.Max(x => x.Id);
+
+                foreach (var deviceType in device.DeviceTypes)
+                {
+                    var propValues = deviceType.PropValues;
+                    
+                    foreach (var propValue in propValues)
+                    {
+                        valueList.Add(new DevicePropertyValue
+                        {
+                            Value = propValue.Value,
+                            DeviceTypePropertyId = _propertyRepository.FirstOrDefault(x => x.DeviceTypeId == deviceType.Id && x.Name == propValue.PropName).Id,
+                            DeviceId = newDevice.Id
+                        });
+                    }
+                }
+
+                newDevice.DeviceTypeId = maxDeviceTypeId;
+                newDevice.DevicePropertyValues = valueList;
+
+                _deviceRepository.Insert(newDevice);
+
+                return;
+
+            }
+
+            var targetDevice = _deviceRepository.GetAll().Include(x => x.DevicePropertyValues).FirstOrDefault(x => x.Id == device.Id);
+
+            targetDevice.Name = device.DeviceName;
+            targetDevice.Description = device.Description;
+
+            foreach (var deviceType in device.DeviceTypes)
+            {
+                var propValues = deviceType.PropValues;
+
+                foreach (var propValue in propValues)
+                {
+                    var values = _valueRepository.GetAll().Include(x => x.Device).Include(x => x.DeviceTypeProperty);
+
+                    var value = values.FirstOrDefault(x =>
+                        x.DeviceId == targetDevice.Id && x.DeviceTypeProperty.Name == propValue.PropName);
+
+                    value.Value = propValue.Value;
+                }
+            }
+        }
+
+
+
+        public void Delete(int id)
+        {
+            var device = _deviceRepository.Get(id);
+
+            _deviceRepository.Delete(device);
+        }
 
 
     }

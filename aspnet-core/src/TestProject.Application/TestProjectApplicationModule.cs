@@ -70,12 +70,16 @@ namespace TestProject
                         .ForMember(dest => dest.DeviceTypeProperties, source => source.MapFrom(src => src.Properties));
 
 
-                    // ------------------- DEVICE TYPE ------------------//
+                    // ------------------- DEVICE ------------------//
                     cfg.CreateMap<Device, DeviceDto>()
                         .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
                         .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
                         .ForMember(dest => dest.DeviceTypeName, source => source.MapFrom(src => src.DeviceType.Name));
 
+                    cfg.CreateMap<Device, DeviceDto>()
+                        .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
+                        .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
+                        .ForMember(dest => dest.DeviceTypeName, source => source.MapFrom(src => src.DeviceType.Name));
                 }
             );
         }

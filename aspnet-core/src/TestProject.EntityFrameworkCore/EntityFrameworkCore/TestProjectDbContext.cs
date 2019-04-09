@@ -13,7 +13,7 @@ namespace TestProject.EntityFrameworkCore
         
         public DbSet<Device> Devices { get; set; }
         public DbSet<DeviceType> DeviceTypes { get; set; }
-        public DbSet<DeviceTypeProperty> DevieTypeProperties { get; set; }
+        public DbSet<DeviceTypeProperty> DeviceTypeProperties { get; set; }
         public DbSet<DevicePropertyValue> DevicePropertyValues { get; set; }
 
 

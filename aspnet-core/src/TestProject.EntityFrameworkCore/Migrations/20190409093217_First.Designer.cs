@@ -10,7 +10,7 @@ using TestProject.EntityFrameworkCore;
 namespace TestProject.Migrations
 {
     [DbContext(typeof(TestProjectDbContext))]
-    [Migration("20190404131350_First")]
+    [Migration("20190409093217_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1108,6 +1108,8 @@ namespace TestProject.Migrations
 
                     b.Property<int>("DeviceTypeId");
 
+                    b.Property<bool>("IsRequired");
+
                     b.Property<string>("MachineKey");
 
                     b.Property<string>("Name")
@@ -1116,13 +1118,11 @@ namespace TestProject.Migrations
 
                     b.Property<string>("Type");
 
-                    b.Property<bool>("isRequired");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DeviceTypeId");
 
-                    b.ToTable("DevieTypeProperties");
+                    b.ToTable("DeviceTypeProperties");
                 });
 
             modelBuilder.Entity("TestProject.MultiTenancy.Tenant", b =>

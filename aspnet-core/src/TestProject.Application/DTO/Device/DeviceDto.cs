@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Abp.Application.Services.Dto;
-using Abp.Domain.Entities;
+﻿using Abp.Application.Services.Dto;
 
 namespace TestProject.DTO.Device
 {

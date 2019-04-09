@@ -15,6 +15,10 @@
     <Compile Remove="Migrations\20190404073208_prva.cs" />
     <Compile Remove="Migrations\20190404074727_First.cs" />
     <Compile Remove="Migrations\20190404091450_prva.cs" />
+    <Compile Remove="Migrations\20190404131350_First.cs" />
+    <Compile Remove="Migrations\20190409085307_Second.cs" />
+    <Compile Remove="Migrations\20190409085442_Second.cs" />
+    <Compile Remove="Migrations\20190409091743_add-migration First.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
