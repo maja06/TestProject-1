@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Dynamic;
 using System.Linq;
 using Abp.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,17 +18,20 @@ namespace TestProject.Services.DeviceServices
         private readonly IRepository<Device> _deviceRepository;
 
         private readonly IDeviceTypeService _deviceTypeService;
+
+        private readonly IRepository<DeviceType> _typeRepository;
         private readonly IRepository<DeviceTypeProperty> _propertyRepository;
         private readonly IRepository<DevicePropertyValue> _valueRepository;
 
         public DeviceService(IRepository<Device> deviceRepository,
             IRepository<DeviceTypeProperty> propertyRepository, IRepository<DevicePropertyValue> valueRepository,
-            IDeviceTypeService deviceTypeService)
+            IDeviceTypeService deviceTypeService, IRepository<DeviceType> typRepositoryRepository)
         {
             _deviceRepository = deviceRepository;
             _propertyRepository = propertyRepository;
             _valueRepository = valueRepository;
             _deviceTypeService = deviceTypeService;
+            _typeRepository = typRepositoryRepository;
         }
 
 
@@ -39,33 +46,39 @@ namespace TestProject.Services.DeviceServices
             return result;
         }
 
-        public List<DeviceTypeNestedDto> GetDeviceTypes()
+
+
+        // ---------------------------- CREATE DEVICE -----------------------------//
+        // -------------------------------- STEP 1 -------------------------------//
+
+        public List<DeviceTypeNestedDto> GetDeviceTypesNestedListStep(int? id)
         {
-            var deviceTypes = _deviceTypeService.GetDeviceTypeNestedDtos(null);
+            var deviceTypes = _deviceTypeService.GetDeviceTypesNestedList(id);
 
             return deviceTypes;
         }
 
 
-        // --------------- CREATE DEVICE -----------------//
-
-        public IEnumerable<DeviceTypePropertiesDto> GetDeviceTypeListDtos(int id)
+        // ---------------------------- CREATE DEVICE -----------------------------//
+        // -------------------------------- STEP 2 ------------------------------//
+        public IEnumerable<DeviceTypePropertiesDto> GetDeviceTypesFlatListStep(int id)
         {
-            var deviceTypes = _deviceTypeService.GetdDeviceTypePropertiesDtos(id);
+            var deviceTypes = _deviceTypeService.GetDeviceTypesFlatList(id);
 
             return deviceTypes;
         }
 
 
+        // ---------------------------- CREATE DEVICE -----------------------------//
+        // -------------------------------- STEP 3 --------------------------------//
         public void CreateOrUpdateDevice(CreateDeviceDto device)
         {
             if (device.Id == 0)
             {
-                var newDevice = new Models.Device
+                var newDevice = new Device
                 {
                     Name = device.DeviceName,
-                    Description = device.Description,
-                    DevicePropertyValues = new List<DevicePropertyValue>()
+                    Description = device.Description
                 };
 
                 var valueList = new List<DevicePropertyValue>();
@@ -117,11 +130,71 @@ namespace TestProject.Services.DeviceServices
         }
 
 
-        public void Delete(int id)
+        // ------------------------- DELETE DEVICE ----------------------//
+        public void DeleteDevice(int id)
         {
             var device = _deviceRepository.Get(id);
 
             _deviceRepository.Delete(device);
         }
+
+
+
+
+        public List<IDictionary<string, object>> GetDevicesByDeviceType(int? id)
+        {
+            var deviceTypes = _deviceTypeService.GetDeviceTypeWithParents(id);
+
+            List<IDictionary<string, object>> result = new List<IDictionary<string, object>>();
+
+            var allProperties = new List<DeviceTypeProperty>();
+
+            foreach (var type in deviceTypes)
+            {
+                allProperties.AddRange(type.DeviceTypeProperties);
+            }
+
+            foreach (var type in deviceTypes)
+            {
+                foreach (var device in type.Devices)
+                {
+                    IDictionary<string, Object> expando = new ExpandoObject();
+
+                    expando.Add("Id", device.Id);
+                    expando.Add("Name", device.Name);
+
+                    foreach (var prop in allProperties)
+                    {
+                        if (prop.DeviceTypeId == device.DeviceTypeId)
+                        {
+                            string propName = prop.DeviceType.Name + prop.Name;
+                            expando.Add(propName, device.DevicePropertyValues.First(x => x.DeviceTypePropertyId == prop.Id).Value);
+                            result.Add(expando);
+
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
