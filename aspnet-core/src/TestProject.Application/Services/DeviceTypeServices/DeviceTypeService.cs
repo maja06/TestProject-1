@@ -51,7 +51,7 @@ namespace TestProject.Services.DeviceTypeServices
                     Name = deviceType.Name,
                     Description = deviceType.Description,
                     ParentId = deviceType.ParentDeviceTypeId,
-                    Children = GetDeviceTypes(deviceType.Id)
+                    Items = GetDeviceTypes(deviceType.Id)
                 };
 
                 result.Add(currentType);
@@ -254,7 +254,7 @@ namespace TestProject.Services.DeviceTypeServices
 
 
         // --------------------------- DELETE TYPE ------------------------------//
-        
+
         public void DeleteDeviceType(int id)
         {
             var types = GetDeviceTypeWithChildren(id).ToList();

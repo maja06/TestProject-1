@@ -11,6 +11,6 @@ namespace TestProject.DTO.DeviceTypeDtos
 
         public int? ParentId { get; set; }
 
-        public List<DeviceTypeNestedDto> Children { get; set; } = new List<DeviceTypeNestedDto>();
+        public List<DeviceTypeNestedDto> Items { get; set; } = new List<DeviceTypeNestedDto>();
     }
 }

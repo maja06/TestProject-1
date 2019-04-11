@@ -11,6 +11,9 @@
     <RootNamespace>TestProject</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TestProject.Core\TestProject.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
