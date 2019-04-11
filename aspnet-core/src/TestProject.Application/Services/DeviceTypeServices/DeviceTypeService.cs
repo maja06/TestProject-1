@@ -67,11 +67,11 @@ namespace TestProject.Services.DeviceTypeServices
 
         public IEnumerable<DeviceTypePropertiesDto> GetDeviceTypesWithProperties(int? id)
         {
+            var result = new List<DeviceTypePropertiesDto>();
+            
             var type = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
                 .First(x => x.Id == id);
-
-            var result = new List<DeviceTypePropertiesDto>();
-
+            
             var currentType = new DeviceTypePropertiesDto
             {
                 Id = type.Id,
@@ -80,6 +80,12 @@ namespace TestProject.Services.DeviceTypeServices
                 ParentId = type.ParentDeviceTypeId,
                 Properties = ObjectMapper.Map<List<DeviceTypePropertyDto>>(type.DeviceTypeProperties)
             };
+
+            if (_deviceTypeRepository.GetAll().Count() == 1)
+            {
+                result.Add(currentType);
+                return result;
+            }
 
             if (type.ParentDeviceTypeId == null)
             {
@@ -148,7 +154,7 @@ namespace TestProject.Services.DeviceTypeServices
 
 
 
-        //----------------- DYNAMIC DEVICE DETAILS CONTAINING PORPERTIES ------------------//
+        //----------------- DYNAMIC DEVICE DETAILS CONTAINING PROPERTIES ------------------//
 
         public List<IDictionary<string, object>> GetDevicesByType(int? id)
         {
