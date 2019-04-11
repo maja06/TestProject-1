@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net;
 using Abp.Domain.Repositories;
+using Castle.Components.DictionaryAdapter;
 using Microsoft.EntityFrameworkCore;
 using TestProject.DTO.DeviceTypeDtos;
 using TestProject.Models;
@@ -32,14 +35,42 @@ namespace TestProject.Services.DeviceTypeServices
             _valueRepository = valueRepository;
         }
 
+        
+        // ------------------------------ GET NESTED LIST OF TYPES -------------------------------//
+
+        public List<DeviceTypeNestedDto> GetDeviceTypes(int? parentId)
+        {
+            var baseDeviceTypes = _deviceTypeRepository.GetAll()
+                .Where(x => x.ParentDeviceTypeId == parentId).ToList();
+
+            var result = new List<DeviceTypeNestedDto>();
+
+            foreach (var deviceType in baseDeviceTypes)
+            {
+                var currentType = new DeviceTypeNestedDto
+                {
+                    Id = deviceType.Id,
+                    Name = deviceType.Name,
+                    Description = deviceType.Description,
+                    ParentId = deviceType.ParentDeviceTypeId,
+                    Children = GetDeviceTypes(deviceType.Id)
+                };
+
+                result.Add(currentType);
+            }
+
+            return result;
+        }
+
 
 
         //------------------------GET FLAT LIST OF TYPES WITH PROPERTIES -------------------------//
         //----------- returns flat list of types, containing type with given id and parents------//
-        public IEnumerable<DeviceTypePropertiesDto> GetDeviceTypesFlatList(int? deviceTypeId)
+
+        public IEnumerable<DeviceTypePropertiesDto> GetDeviceTypesWithProperties(int? id)
         {
             var type = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
-                .First(x => x.Id == deviceTypeId);
+                .First(x => x.Id == id);
 
             var result = new List<DeviceTypePropertiesDto>();
 
@@ -60,36 +91,9 @@ namespace TestProject.Services.DeviceTypeServices
 
             result.Add(currentType);
 
-            return result.Concat(GetDeviceTypesFlatList(type.ParentDeviceTypeId)).OrderBy(x => x.Id);
+            return result.Concat(GetDeviceTypesWithProperties(type.ParentDeviceTypeId)).OrderBy(x => x.Id);
         }
 
-
-
-        // ------------------------------ GET NESTED LIST OF TYPES -------------------------------//
-
-        public List<DeviceTypeNestedDto> GetDeviceTypesNestedList(int? parentId)
-        {
-            var baseDeviceTypes = _deviceTypeRepository.GetAll()
-                .Where(x => x.ParentDeviceTypeId == parentId).ToList();
-
-            var result = new List<DeviceTypeNestedDto>();
-
-            foreach (var deviceType in baseDeviceTypes)
-            {
-                var currentType = new DeviceTypeNestedDto
-                {
-                    Id = deviceType.Id,
-                    Name = deviceType.Name,
-                    Description = deviceType.Description,
-                    ParentId = deviceType.ParentDeviceTypeId,
-                    Children = GetDeviceTypesNestedList(deviceType.Id)
-                };
-
-                result.Add(currentType);
-            }
-
-            return result;
-        }
 
 
         // ---------------GET FLAT LIST OF TYPES STARTING WITH THE PARENT -----------------//
@@ -123,6 +127,7 @@ namespace TestProject.Services.DeviceTypeServices
 
 
 
+
         // ---------------GET FLAT LIST OF TYPES STARTING WITH THE CHILD -----------------//
 
         public IEnumerable<DeviceType> GetDeviceTypeWithParents(int? id)
@@ -143,26 +148,29 @@ namespace TestProject.Services.DeviceTypeServices
             return list.Concat(GetDeviceTypeWithParents(type.ParentDeviceTypeId)).OrderBy(x => x.Id);
         }
 
+
+
+        
         //-------------------------- CREATE NEW TYPE -------------------------------//
 
-        public IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto deviceTypeDto)
+        public IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto input)
         {
-            if (deviceTypeDto.Id == 0)
+            if (input.Id == 0)
             {
-                DeviceType newDeviceType = ObjectMapper.Map<DeviceType>(deviceTypeDto);
+                DeviceType newDeviceType = ObjectMapper.Map<DeviceType>(input);
 
                 var id = _deviceTypeRepository.InsertAndGetId(newDeviceType);
 
-                var deviceTypes = GetDeviceTypesFlatList(id);
+                var deviceTypes = GetDeviceTypesWithProperties(id);
 
                 return deviceTypes;
             }
 
-            var targetDeviceType = _deviceTypeRepository.Get(deviceTypeDto.Id);
+            var targetDeviceType = _deviceTypeRepository.Get(input.Id);
 
-            ObjectMapper.Map(deviceTypeDto, targetDeviceType);
+            ObjectMapper.Map(input, targetDeviceType);
 
-            var updatedDeviceTypes = GetDeviceTypesFlatList(targetDeviceType.Id);
+            var updatedDeviceTypes = GetDeviceTypesWithProperties(targetDeviceType.Id);
 
             return updatedDeviceTypes;
         }
@@ -171,12 +179,12 @@ namespace TestProject.Services.DeviceTypeServices
 
         //---------------------- CREATE PROPERTIES FOR TYPE -----------------------//
 
-        public void UpdateDeviceTypeProperties(DeviceTypePropertyUpdateDto deviceTypePropertyUpdateDto)
+        public void CreateOrUpdateProperties(DeviceTypePropertyUpdateDto input)
         {
             var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
-                .First(x => x.Id == deviceTypePropertyUpdateDto.Id);
+                .First(x => x.Id == input.Id);
 
-            foreach (var property in deviceTypePropertyUpdateDto.Properties)
+            foreach (var property in input.Properties)
                 _propertyRepository.Insert(new DeviceTypeProperty
                 {
                     Name = property.NameProperty,
@@ -190,8 +198,8 @@ namespace TestProject.Services.DeviceTypeServices
 
 
         // --------------------------- DELETE TYPE ------------------------------//
-
-        public void Delete(int id)
+        
+        public void DeleteDeviceType(int id)
         {
             var types = GetDeviceTypeWithChildren(id).ToList();
 

@@ -7,24 +7,18 @@ namespace TestProject.Services.DeviceTypeServices
 {
     public interface IDeviceTypeService : IApplicationService
     {
-        IEnumerable<DeviceTypePropertiesDto> GetDeviceTypesFlatList(int? deviceTypeId);
+        List<DeviceTypeNestedDto> GetDeviceTypes(int? parentId);
 
-        List<DeviceTypeNestedDto> GetDeviceTypesNestedList(int? parentId);
-
+        IEnumerable<DeviceTypePropertiesDto> GetDeviceTypesWithProperties(int? deviceTypeId);
+        
         IEnumerable<DeviceType> GetDeviceTypeWithChildren(int parentId);
-
-        IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto deviceTypeDto);
-
-        void UpdateDeviceTypeProperties(DeviceTypePropertyUpdateDto deviceTypePropertyUpdateDto);
-
-        void Delete(int id);
 
         IEnumerable<DeviceType> GetDeviceTypeWithParents(int? id);
 
+        IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto deviceTypeDto);
 
+        void CreateOrUpdateProperties(DeviceTypePropertyUpdateDto deviceTypePropertyUpdateDto);
 
-
-
-
+        void DeleteDeviceType(int id);
     }
 }

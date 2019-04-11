@@ -37,7 +37,7 @@ namespace TestProject.Services.DeviceServices
 
         // ------------ GET DEVICE/DEVICES ---------------//
 
-        public List<DeviceDto> GetAllDevices()
+        public List<DeviceDto> GetDevices()
         {
             var devices = _deviceRepository.GetAll().Include(x => x.DeviceType).ToList();
 
@@ -48,26 +48,61 @@ namespace TestProject.Services.DeviceServices
 
 
 
-        // ---------------------------- CREATE DEVICE -----------------------------//
-        // -------------------------------- STEP 1 -------------------------------//
-
-        public List<DeviceTypeNestedDto> GetDeviceTypesNestedListStep(int? id)
+        //----------------- DYNAMIC DEVICE DETAILS CONTAINING PORPERTIES ------------------//
+        public List<IDictionary<string, object>> GetDevicesByType(int? id)
         {
-            var deviceTypes = _deviceTypeService.GetDeviceTypesNestedList(id);
+            var deviceTypes = _deviceTypeService.GetDeviceTypeWithParents(id);
 
-            return deviceTypes;
+            List<IDictionary<string, object>> result = new List<IDictionary<string, object>>();
+
+            var allProperties = new List<DeviceTypeProperty>();
+
+            foreach (var type in deviceTypes)
+            {
+                allProperties.AddRange(type.DeviceTypeProperties);
+            }
+
+            foreach (var type in deviceTypes)
+            {
+                foreach (var device in type.Devices)
+                {
+                    var values = device.DevicePropertyValues;
+
+                    IDictionary<string, object> expando = new ExpandoObject();
+
+                    expando.Add("Id", device.Id);
+                    expando.Add("Name", device.Name);
+                    expando.Add("Description", device.Description);
+
+                    foreach (var prop in allProperties)
+                    {
+                        if (!device.DevicePropertyValues.Any())
+                        {
+                            string propName = prop.DeviceType.Name + "-" + prop.Name;
+
+                            expando.Add(propName, null);
+                        }
+
+                        foreach (var value in values)
+                        {
+
+                            if (value.DeviceTypePropertyId == prop.Id)
+                            {
+                                string propName = prop.DeviceType.Name + "-" + prop.Name;
+
+                                expando.Add(propName, value.Value);
+                            }
+                        }
+                    }
+
+                    result.Add(expando);
+                }
+            }
+
+            return result;
         }
 
-
-        // ---------------------------- CREATE DEVICE -----------------------------//
-        // -------------------------------- STEP 2 ------------------------------//
-        public IEnumerable<DeviceTypePropertiesDto> GetDeviceTypesFlatListStep(int id)
-        {
-            var deviceTypes = _deviceTypeService.GetDeviceTypesFlatList(id);
-
-            return deviceTypes;
-        }
-
+        
 
         // ---------------------------- CREATE DEVICE -----------------------------//
         // -------------------------------- STEP 3 --------------------------------//
@@ -131,67 +166,13 @@ namespace TestProject.Services.DeviceServices
 
 
         // ------------------------- DELETE DEVICE ----------------------//
+
         public void DeleteDevice(int id)
         {
             var device = _deviceRepository.Get(id);
 
             _deviceRepository.Delete(device);
         }
-
-
-
-
-        public List<IDictionary<string, object>> GetDevicesByDeviceType(int? id)
-        {
-            var deviceTypes = _deviceTypeService.GetDeviceTypeWithParents(id);
-
-            List<IDictionary<string, object>> result = new List<IDictionary<string, object>>();
-
-            var allProperties = new List<DeviceTypeProperty>();
-
-            foreach (var type in deviceTypes)
-            {
-                allProperties.AddRange(type.DeviceTypeProperties);
-            }
-
-            foreach (var type in deviceTypes)
-            {
-                foreach (var device in type.Devices)
-                {
-                    IDictionary<string, Object> expando = new ExpandoObject();
-
-                    expando.Add("Id", device.Id);
-                    expando.Add("Name", device.Name);
-
-                    foreach (var prop in allProperties)
-                    {
-                        if (prop.DeviceTypeId == device.DeviceTypeId)
-                        {
-                            string propName = prop.DeviceType.Name + prop.Name;
-                            expando.Add(propName, device.DevicePropertyValues.First(x => x.DeviceTypePropertyId == prop.Id).Value);
-                            result.Add(expando);
-
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
