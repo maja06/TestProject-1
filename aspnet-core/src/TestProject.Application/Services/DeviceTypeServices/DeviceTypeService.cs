@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Configuration;
+using System.Dynamic;
 using System.Linq;
-using System.Net;
 using Abp.Domain.Repositories;
-using Castle.Components.DictionaryAdapter;
 using Microsoft.EntityFrameworkCore;
 using TestProject.DTO.DeviceTypeDtos;
 using TestProject.Models;
@@ -98,7 +96,7 @@ namespace TestProject.Services.DeviceTypeServices
 
         // ---------------GET FLAT LIST OF TYPES STARTING WITH THE PARENT -----------------//
 
-        public IEnumerable<DeviceType> GetDeviceTypeWithChildren(int parentId)
+        private IEnumerable<DeviceType> GetDeviceTypeWithChildren(int parentId)
         {
             var type = _deviceTypeRepository.GetAll().Include(x => x.Devices).ThenInclude(x => x.DevicePropertyValues)
                 .Include(x => x.DeviceTypeProperties)
@@ -130,7 +128,7 @@ namespace TestProject.Services.DeviceTypeServices
 
         // ---------------GET FLAT LIST OF TYPES STARTING WITH THE CHILD -----------------//
 
-        public IEnumerable<DeviceType> GetDeviceTypeWithParents(int? id)
+        private IEnumerable<DeviceType> GetDeviceTypeWithParents(int? id)
         {
             var type = _deviceTypeRepository.GetAll().Include(x => x.Devices).ThenInclude(x => x.DevicePropertyValues)
                 .Include(x => x.DeviceTypeProperties)
@@ -150,7 +148,65 @@ namespace TestProject.Services.DeviceTypeServices
 
 
 
+        //----------------- DYNAMIC DEVICE DETAILS CONTAINING PORPERTIES ------------------//
+
+        public List<IDictionary<string, object>> GetDevicesByType(int? id)
+        {
+            var deviceTypes = GetDeviceTypeWithParents(id);
+
+            List<IDictionary<string, object>> result = new List<IDictionary<string, object>>();
+
+            var allProperties = new List<DeviceTypeProperty>();
+
+            var types = deviceTypes as DeviceType[] ?? deviceTypes.ToArray();
+            foreach (var type in types)
+            {
+                allProperties.AddRange(type.DeviceTypeProperties);
+            }
+
+            foreach (var type in types)
+            {
+                foreach (var device in type.Devices)
+                {
+                    var values = device.DevicePropertyValues;
+
+                    IDictionary<string, object> expando = new ExpandoObject();
+
+                    expando.Add("Id", device.Id);
+                    expando.Add("Name", device.Name);
+                    expando.Add("Description", device.Description);
+
+                    foreach (var prop in allProperties)
+                    {
+                        if (!device.DevicePropertyValues.Any())
+                        {
+                            string propName = prop.DeviceType.Name + "-" + prop.Name;
+
+                            expando.Add(propName, null);
+                        }
+
+                        foreach (var value in values)
+                        {
+
+                            if (value.DeviceTypePropertyId == prop.Id)
+                            {
+                                string propName = prop.DeviceType.Name + "-" + prop.Name;
+
+                                expando.Add(propName, value.Value);
+                            }
+                        }
+                    }
+
+                    result.Add(expando);
+                }
+            }
+
+            return result;
+        }
         
+
+
+
         //-------------------------- CREATE NEW TYPE -------------------------------//
 
         public IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto input)
