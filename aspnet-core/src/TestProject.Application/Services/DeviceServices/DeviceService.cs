@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using Abp.Domain.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestProject.DTO.DeviceDtos;
 using TestProject.Models;
+using TestProject.Query;
 
 namespace TestProject.Services.DeviceServices
 {
@@ -107,6 +110,15 @@ namespace TestProject.Services.DeviceServices
         }
 
 
+        [HttpPost]
+        public List<Device> GetSearchResult([FromBody]QueryInfo query)
+        {
+            var allDevices = _deviceRepository.GetAll().ToList();
+
+            var result = query.GetQuery<Device>(query, allDevices).ToList();
+
+            return result;
+        }
 
 
     }

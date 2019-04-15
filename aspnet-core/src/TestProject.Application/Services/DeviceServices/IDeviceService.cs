@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Abp.Application.Services;
 using TestProject.DTO.DeviceDtos;
+using TestProject.Models;
+using TestProject.Query;
 
 namespace TestProject.Services.DeviceServices
 {
@@ -11,5 +13,8 @@ namespace TestProject.Services.DeviceServices
        void CreateOrUpdateDevice(CreateDeviceDto device);
 
         void DeleteDevice(int id);
+
+        List<Device> GetSearchResult(QueryInfo query);
+
     }
 }
