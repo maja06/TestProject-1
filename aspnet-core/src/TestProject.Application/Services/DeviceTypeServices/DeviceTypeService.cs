@@ -2,6 +2,7 @@
 using System.Dynamic;
 using System.Linq;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Microsoft.EntityFrameworkCore;
 using TestProject.DTO.DeviceTypeDtos;
 using TestProject.Models;
@@ -248,9 +249,7 @@ namespace TestProject.Services.DeviceTypeServices
 
             foreach (var property in input.Properties)
             {
-                var prop = _propertyRepository.Get(property.Id);
-
-                if (prop == null)
+                if (property.Id == 0)
                 {
                     _propertyRepository.Insert(new DeviceTypeProperty
                     {
@@ -262,6 +261,7 @@ namespace TestProject.Services.DeviceTypeServices
                     continue;
                 }
 
+                var prop = _propertyRepository.Get(property.Id);
                 ObjectMapper.Map(prop, property);
             }
                 
