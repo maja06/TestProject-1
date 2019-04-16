@@ -14,7 +14,7 @@ namespace TestProject.Services.DeviceServices
 
         void DeleteDevice(int id);
 
-        List<Device> GetSearchResult(QueryInfo query);
+        List<DeviceDto> GetSearchResult(QueryInfo query);
 
     }
 }

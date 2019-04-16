@@ -247,13 +247,24 @@ namespace TestProject.Services.DeviceTypeServices
                 .First(x => x.Id == input.Id);
 
             foreach (var property in input.Properties)
-                _propertyRepository.Insert(new DeviceTypeProperty
+            {
+                var prop = _propertyRepository.Get(property.Id);
+
+                if (prop == null)
                 {
-                    Name = property.NameProperty,
-                    IsRequired = property.Required,
-                    Type = property.Type,
-                    DeviceTypeId = deviceType.Id
-                });
+                    _propertyRepository.Insert(new DeviceTypeProperty
+                    {
+                        Name = property.NameProperty,
+                        IsRequired = property.Required,
+                        Type = property.Type,
+                        DeviceTypeId = deviceType.Id
+                    });
+                    continue;
+                }
+
+                ObjectMapper.Map(prop, property);
+            }
+                
         }
 
         

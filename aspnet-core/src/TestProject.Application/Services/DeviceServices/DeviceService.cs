@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using Abp.Domain.Repositories;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestProject.DTO.DeviceDtos;
@@ -111,13 +113,15 @@ namespace TestProject.Services.DeviceServices
 
 
         [HttpPost]
-        public List<Device> GetSearchResult([FromBody]QueryInfo query)
+        public List<DeviceDto> GetSearchResult([FromBody]QueryInfo query)
         {
-            var allDevices = _deviceRepository.GetAll().ToList();
+            var allDevices = _deviceRepository.GetAll().Include(x => x.DeviceType);
+            
+            var result = query.GetQuery(query, allDevices).ToList();
 
-            var result = query.GetQuery<Device>(query, allDevices).ToList();
+            var dtoResult = ObjectMapper.Map<List<DeviceDto>>(result);
 
-            return result;
+            return dtoResult;
         }
 
 

@@ -21,12 +21,8 @@ namespace TestProject.Query
         
         public FilterInfo Filter { get; set; }
 
-
-
-
-
-
-        public IQueryable<TEntity> GetQuery<TEntity>(QueryInfo queryInfo, List<TEntity> list)
+        
+        public IQueryable<TEntity> GetQuery<TEntity>(QueryInfo queryInfo, IQueryable<TEntity> list)
         {
             var sortInfo = queryInfo.Sorters;
             var filterInfo = queryInfo.Filter;
@@ -34,10 +30,8 @@ namespace TestProject.Query
 
             ParameterExpression parameter = Expression.Parameter(typeof(TEntity), "x");
             
-            IQueryable<TEntity> myList = list.AsQueryable();
-
-            var filteredList = GetFilteredList<TEntity>(parameter, rules, filterInfo.Condition);
-            myList = myList.Where(GetFilterExpression<TEntity>(parameter, filteredList));
+            var filteredList = GetFilterExpression<TEntity>(parameter, rules, filterInfo.Condition);
+            list = list.Where(GetLambdaExpression<TEntity>(parameter, filteredList, queryInfo));
 
             bool sorted = false;
 
@@ -48,54 +42,78 @@ namespace TestProject.Query
                     case 'a':
                         if (sorted == false)
                         {
-                            myList = myList.OrderBy(GetOrderExpression<TEntity>(parameter, sort));
+                            list = list.OrderBy(GetOrderExpression<TEntity>(parameter, sort));
                             sorted = true;
                             break;
                         }
 
-                        var sortedList1 = myList as IOrderedQueryable<TEntity>;
-                        myList = sortedList1.ThenBy(GetOrderExpression<TEntity>(parameter, sort));
+                        var sortedList1 = list as IOrderedQueryable<TEntity>;
+                        list = sortedList1.ThenBy(GetOrderExpression<TEntity>(parameter, sort));
                         break;
 
                     case 'd':
                         if (sorted == false)
                         {
-                            myList = myList.OrderByDescending(GetOrderExpression<TEntity>(parameter, sort));
+                            list = list.OrderByDescending(GetOrderExpression<TEntity>(parameter, sort));
                             sorted = true;
                             break;
                         }
 
-                        var sortedList2 = myList as IOrderedQueryable<TEntity>;
-                        myList = sortedList2.ThenBy(GetOrderExpression<TEntity>(parameter, sort));
+                        var sortedList2 = list as IOrderedQueryable<TEntity>;
+                        list = sortedList2.ThenBy(GetOrderExpression<TEntity>(parameter, sort));
                         break;
                 }
             }
 
-            myList = myList.Skip(queryInfo.Skip).Take(queryInfo.Take);
-
-
-
-
-
-            return myList;
-
-
-
+            list = list.Skip(queryInfo.Skip).Take(queryInfo.Take);
+            
+            return list;
         }
 
-
-        public Expression<Func<TEntity, bool>> GetFilterExpression<TEntity>(ParameterExpression parameter,
-            Expression expression)
+        //------------------- ORDER LAMBDA EXPRESSION FILTER -------------------//
+        public Expression<Func<TEntity, bool>> GetLambdaExpression<TEntity>(ParameterExpression parameter,
+            Expression expression, QueryInfo queryInfo)
         {
-            return Expression.Lambda<Func<TEntity, bool>>(expression, parameter);
+            Expression searchResult = Expression.Constant(true, typeof(bool));
+
+            Expression result = Expression.Constant(false, typeof(bool));
+            
+            ParameterExpression paramExpression = parameter;
+
+            foreach (var property in queryInfo.SearchProperties)
+            {
+                var propExpression = Expression.Property(paramExpression, property);
+
+                var type = propExpression.Type;
+
+                var convertedValue = Convert.ChangeType(queryInfo.SearchText, type);
+
+                var constant = Expression.Constant(convertedValue);
+
+                switch (convertedValue)
+                {
+                    case string _:
+                        searchResult = GetBinaryExpressionForString("ct", propExpression, constant);
+                        break;
+
+                    case int _:
+                        searchResult = GetBinaryExpressionForInt("ct", propExpression, constant);
+                        break;
+
+                    default:
+                        throw new UserFriendlyException("Search again with different parameters");
+                }
+
+                result = Expression.OrElse(result, searchResult);
+            }
+
+            result = Expression.AndAlso(result, expression);
+
+            return Expression.Lambda<Func<TEntity, bool>>(result, parameter);
         }
 
-
-
-
-
-
-        public Expression GetFilteredList<TEntity>(ParameterExpression parameter, List<RuleInfo> rules,
+        //------------------- ORDER EXPRESSION FILTER -------------------//
+        public Expression GetFilterExpression<TEntity>(ParameterExpression parameter, List<RuleInfo> rules,
             string condition)
         {
             //true & false expr
@@ -162,27 +180,23 @@ namespace TestProject.Query
                 {
                     case "and":
                         result = Expression.AndAlso(result,
-                            GetFilteredList<TEntity>(parameter, rule.Rules, rule.Condition));
+                            GetFilterExpression<TEntity>(parameter, rule.Rules, rule.Condition));
                         break;
 
                     case "or":
                         result = Expression.OrElse(result,
-                            GetFilteredList<TEntity>(parameter, rule.Rules, rule.Condition));
+                            GetFilterExpression<TEntity>(parameter, rule.Rules, rule.Condition));
                         break;
 
                     default:
                         throw new UserFriendlyException($"Unexpected condition {condition}");
                 }
-
             }
-
-
+            
             return result;
         }
 
-
-
-
+        //------------------- ORDER EXPRESSION -------------------//
         public Expression<Func<TEntity, object>> GetOrderExpression<TEntity>(ParameterExpression parameter, SortInfo sortInfo)
         {
             var propExpression = Expression.Property(parameter, sortInfo.Property);
@@ -192,11 +206,7 @@ namespace TestProject.Query
             return Expression.Lambda<Func<TEntity, object>>(convertExp, parameter);
         }
 
-
-
-
-
-
+        //------------------- ORDER BINARY EXPRESSION FOR INT -------------------//
         public BinaryExpression GetBinaryExpressionForInt(string operand, Expression propExpression, ConstantExpression constant)
         {
             switch (operand)
@@ -217,22 +227,14 @@ namespace TestProject.Query
             }
         }
 
-
-
-
+        //------------------- ORDER BINARY EXPRESSION FOR STRING -------------------//
         public BinaryExpression GetBinaryExpressionForString(string operand, Expression propExpression, ConstantExpression constant)
         {
             var trueExpression = Expression.Constant(true, typeof(bool));
 
             BinaryExpression bin;
 
-            //MethodInfo compareToMethod = typeof(string).GetMethod("CompareTo", new[] {typeof(string)});
-
-            //var compareCall = Expression.Call(propExpression, compareToMethod, constant);
-
-            //var zero = Expression.Constant(0);
-
-            //var comparison = Expression.Equal(compareCall, zero);
+            var ignoreCase = Expression.Constant(StringComparison.OrdinalIgnoreCase);
 
             switch (operand)
             {
@@ -241,20 +243,19 @@ namespace TestProject.Query
 
                 case "ct":
                     MethodInfo containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string), typeof(StringComparison) });
-                    var ignoreCase = Expression.Constant(StringComparison.OrdinalIgnoreCase);
                     var contains = Expression.Call(propExpression, containsMethod, constant, ignoreCase);
                     bin = Expression.Equal(contains, trueExpression);
                     break;
 
                 case "sw":
-                    MethodInfo startsMethod = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
-                    var startsWith = Expression.Call(propExpression, startsMethod, constant);
+                    MethodInfo startsMethod = typeof(string).GetMethod("StartsWith", new[] { typeof(string), typeof(StringComparison) });
+                    var startsWith = Expression.Call(propExpression, startsMethod, constant, ignoreCase);
                     bin = Expression.Equal(startsWith, trueExpression);
                     break;
 
                 case "ew":
-                    MethodInfo endsMethod = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
-                    var endsWith = Expression.Call(propExpression, endsMethod, constant);
+                    MethodInfo endsMethod = typeof(string).GetMethod("EndsWith", new[] { typeof(string), typeof(StringComparison) });
+                    var endsWith = Expression.Call(propExpression, endsMethod, constant, ignoreCase);
                     bin = Expression.Equal(endsWith, trueExpression);
                     break;
 
@@ -264,10 +265,5 @@ namespace TestProject.Query
 
             return bin;
         }
-
-
-
-
-
     }
 }
