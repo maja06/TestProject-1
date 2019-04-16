@@ -58,12 +58,20 @@ namespace TestProject
                         .ForMember(dest => dest.ParentId, source => source.MapFrom(src => src.ParentDeviceType.Id))
                         .ForMember(dest => dest.Properties, source => source.MapFrom(src => src.DeviceTypeProperties));
 
+
+                    //--------------- TYPE PROPERTY -----------------//
                     cfg.CreateMap<DeviceTypeProperty, DeviceTypePropertyDto>()
                         .ForMember(dest => dest.NameProperty, source => source.MapFrom(src => src.Name))
                         .ForMember(dest => dest.Required, source => source.MapFrom(src => src.IsRequired))
-                        .ForMember(dest => dest.Type, source => source.MapFrom(src => src.Type));
+                        .ForMember(dest => dest.Type, source => source.MapFrom(src => src.Type))
+                        .ForMember(dest => dest.DeviceTypeId, source => source.MapFrom(src => src.DeviceTypeId));
 
-                   
+                    cfg.CreateMap<DeviceTypeProperty, DeviceTypePropertyDto>()
+                        .ForMember(dest => dest.NameProperty, source => source.MapFrom(src => src.Name))
+                        .ForMember(dest => dest.Required, source => source.MapFrom(src => src.IsRequired))
+                        .ForMember(dest => dest.Type, source => source.MapFrom(src => src.Type))
+                        .ForMember(dest => dest.DeviceTypeId, source => source.MapFrom(src => src.DeviceTypeId));
+
                     // ------------------- DEVICE ------------------//
                     cfg.CreateMap<Device, DeviceDto>()
                         .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))

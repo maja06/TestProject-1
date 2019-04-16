@@ -244,8 +244,22 @@ namespace TestProject.Services.DeviceTypeServices
 
             targetType.Name = input.Name;
             targetType.Description = input.Description;
+            //add option to change parent;
+            //targetType.DeviceTypeParentId = input.ParentId;
 
-            foreach (var property in input.Properties)
+            var updatedProperties = input.Properties.Where(x => x.DeviceTypeId == targetType.Id).ToList();
+
+            foreach (var prop in targetType.DeviceTypeProperties)
+            {
+                var pr = updatedProperties.FirstOrDefault(x => x.Id == prop.Id);
+
+                if (pr == null)
+                {
+                    _propertyRepository.Delete(prop);
+                }
+            }
+
+            foreach (var property in updatedProperties)
             {
                 if (property.Id == 0)
                 {
