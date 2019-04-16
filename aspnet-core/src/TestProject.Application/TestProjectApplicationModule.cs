@@ -63,11 +63,7 @@ namespace TestProject
                         .ForMember(dest => dest.Required, source => source.MapFrom(src => src.IsRequired))
                         .ForMember(dest => dest.Type, source => source.MapFrom(src => src.Type));
 
-                    cfg.CreateMap<DeviceTypePropertyUpdateDto, DeviceType>()
-                        .ForMember(dest => dest.Id, source => source.MapFrom(src => src.Id))
-                        .ForMember(dest => dest.DeviceTypeProperties, source => source.MapFrom(src => src.Properties));
-
-
+                   
                     // ------------------- DEVICE ------------------//
                     cfg.CreateMap<Device, DeviceDto>()
                         .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))

@@ -12,10 +12,8 @@ namespace TestProject.Services.DeviceTypeServices
 
         List<IDictionary<string, object>> GetDevicesByType(int? id);
 
-        IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto deviceTypeDto);
-
-        void CreateOrUpdateProperties(DeviceTypePropertyUpdateDto deviceTypePropertyUpdateDto);
-
+        void CreateOrUpdateDeviceType(DeviceTypePropertiesDto input);
+        
         void DeleteDeviceType(int id);
     }
 }

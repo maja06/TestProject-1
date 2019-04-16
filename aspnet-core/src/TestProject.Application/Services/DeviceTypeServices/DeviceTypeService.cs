@@ -2,7 +2,6 @@
 using System.Dynamic;
 using System.Linq;
 using Abp.Domain.Repositories;
-using Abp.Extensions;
 using Microsoft.EntityFrameworkCore;
 using TestProject.DTO.DeviceTypeDtos;
 using TestProject.Models;
@@ -211,41 +210,40 @@ namespace TestProject.Services.DeviceTypeServices
             return result;
         }
         
-
-
-
-        //-------------------------- CREATE NEW TYPE -------------------------------//
-
-        public IEnumerable<DeviceTypePropertiesDto> CreateOrUpdateDeviceType(DeviceTypeDto input)
+        
+        //---------------------- CREATE NEW TYPE -----------------------//
+        public void CreateOrUpdateDeviceType(DeviceTypePropertiesDto input)
         {
             if (input.Id == 0)
             {
-                DeviceType newDeviceType = ObjectMapper.Map<DeviceType>(input);
+                var newDeviceType = new DeviceType
+                {
+                    Name = input.Name,
+                    Description = input.Description,
+                    ParentDeviceTypeId = input.ParentId
+                };
 
-                var id = _deviceTypeRepository.InsertAndGetId(newDeviceType);
+                var newDeviceTypeId = _deviceTypeRepository.InsertAndGetId(newDeviceType);
 
-                var deviceTypes = GetDeviceTypesWithProperties(id);
+                foreach (var property in input.Properties)
+                {
+                    _propertyRepository.Insert(new DeviceTypeProperty
+                    {
+                        Name = property.NameProperty,
+                        IsRequired = property.Required,
+                        Type = property.Type,
+                        DeviceTypeId = newDeviceTypeId
+                    });
+                }
 
-                return deviceTypes;
+                return;
             }
 
-            var targetDeviceType = _deviceTypeRepository.Get(input.Id);
-
-            ObjectMapper.Map(input, targetDeviceType);
-
-            var updatedDeviceTypes = GetDeviceTypesWithProperties(targetDeviceType.Id);
-
-            return updatedDeviceTypes;
-        }
-
-
-
-        //---------------------- CREATE PROPERTIES FOR TYPE -----------------------//
-
-        public void CreateOrUpdateProperties(DeviceTypePropertyUpdateDto input)
-        {
-            var deviceType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+            var targetType = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
                 .First(x => x.Id == input.Id);
+
+            targetType.Name = input.Name;
+            targetType.Description = input.Description;
 
             foreach (var property in input.Properties)
             {
@@ -256,18 +254,16 @@ namespace TestProject.Services.DeviceTypeServices
                         Name = property.NameProperty,
                         IsRequired = property.Required,
                         Type = property.Type,
-                        DeviceTypeId = deviceType.Id
+                        DeviceTypeId = input.Id
                     });
+
                     continue;
                 }
 
                 var prop = _propertyRepository.Get(property.Id);
                 ObjectMapper.Map(prop, property);
             }
-                
         }
-
-        
 
 
         // --------------------------- DELETE TYPE ------------------------------//
