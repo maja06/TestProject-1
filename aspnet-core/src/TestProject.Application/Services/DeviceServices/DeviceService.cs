@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 using Abp.Domain.Repositories;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestProject.DTO.DeviceDtos;
@@ -112,6 +109,7 @@ namespace TestProject.Services.DeviceServices
         }
 
 
+        // --------------------- SEARCH QUERY-----------------------------//
         [HttpPost]
         public List<DeviceDto> GetSearchResult([FromBody]QueryInfo query)
         {

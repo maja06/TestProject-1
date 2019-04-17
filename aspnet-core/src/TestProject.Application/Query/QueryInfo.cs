@@ -74,6 +74,7 @@ namespace TestProject.Query
         public Expression<Func<TEntity, bool>> GetLambdaExpression<TEntity>(ParameterExpression parameter,
             Expression expression, QueryInfo queryInfo)
         {
+            // ReSharper disable once RedundantAssignment
             Expression searchResult = Expression.Constant(true, typeof(bool));
 
             Expression result = Expression.Constant(false, typeof(bool));

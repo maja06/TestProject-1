@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TestProject.Query
+﻿namespace TestProject.Query
 {
     public class SortInfo
     {
