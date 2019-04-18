@@ -69,7 +69,7 @@ namespace TestProject.Services.DeviceTypeServices
         {
             var result = new List<DeviceTypePropertiesDto>();
             
-            var type = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties)
+            var type = _deviceTypeRepository.GetAll().Include(x => x.DeviceTypeProperties).Include(x => x.Devices).ThenInclude(x => x.DevicePropertyValues)
                 .First(x => x.Id == id);
             
             var currentType = new DeviceTypePropertiesDto
@@ -245,7 +245,7 @@ namespace TestProject.Services.DeviceTypeServices
             targetType.Name = input.Name;
             targetType.Description = input.Description;
             //add option to change parent;
-            //targetType.DeviceTypeParentId = input.ParentId;
+            targetType.ParentDeviceTypeId = input.ParentId;
 
             var updatedProperties = input.Properties.Where(x => x.DeviceTypeId == targetType.Id).ToList();
 

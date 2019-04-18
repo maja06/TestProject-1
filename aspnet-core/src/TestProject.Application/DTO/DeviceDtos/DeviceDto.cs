@@ -9,5 +9,7 @@ namespace TestProject.DTO.DeviceDtos
         public string Description { get; set; }
 
         public string DeviceTypeName { get; set; }
+
+        public int DeviceTypeId { get; set; }
     }
 }

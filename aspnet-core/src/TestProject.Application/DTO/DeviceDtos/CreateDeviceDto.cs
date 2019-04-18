@@ -9,6 +9,8 @@ namespace TestProject.DTO.DeviceDtos
 
         public string Description { get; set; }
 
+        public int DeviceTypeId { get; set; }
+
         public List<DeviceTypePropertyValuesDto> DeviceTypes { get; set; } = new List<DeviceTypePropertyValuesDto>();
     }
 }

@@ -66,22 +66,15 @@ namespace TestProject
                         .ForMember(dest => dest.Type, source => source.MapFrom(src => src.Type))
                         .ForMember(dest => dest.DeviceTypeId, source => source.MapFrom(src => src.DeviceTypeId));
 
-                    cfg.CreateMap<DeviceTypeProperty, DeviceTypePropertyDto>()
-                        .ForMember(dest => dest.NameProperty, source => source.MapFrom(src => src.Name))
-                        .ForMember(dest => dest.Required, source => source.MapFrom(src => src.IsRequired))
-                        .ForMember(dest => dest.Type, source => source.MapFrom(src => src.Type))
-                        .ForMember(dest => dest.DeviceTypeId, source => source.MapFrom(src => src.DeviceTypeId));
 
                     // ------------------- DEVICE ------------------//
                     cfg.CreateMap<Device, DeviceDto>()
                         .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
                         .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
-                        .ForMember(dest => dest.DeviceTypeName, source => source.MapFrom(src => src.DeviceType.Name));
+                        .ForMember(dest => dest.DeviceTypeName, source => source.MapFrom(src => src.DeviceType.Name))
+                        .ForMember(dest => dest.DeviceTypeId, source => source.MapFrom(src => src.DeviceTypeId));
 
-                    cfg.CreateMap<Device, DeviceDto>()
-                        .ForMember(dest => dest.Name, source => source.MapFrom(src => src.Name))
-                        .ForMember(dest => dest.Description, source => source.MapFrom(src => src.Description))
-                        .ForMember(dest => dest.DeviceTypeName, source => source.MapFrom(src => src.DeviceType.Name));
+
                 }
             );
         }

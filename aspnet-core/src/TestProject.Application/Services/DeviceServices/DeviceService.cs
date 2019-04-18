@@ -6,22 +6,25 @@ using Microsoft.EntityFrameworkCore;
 using TestProject.DTO.DeviceDtos;
 using TestProject.Models;
 using TestProject.Query;
+using TestProject.Services.DeviceTypeServices;
 
 namespace TestProject.Services.DeviceServices
 {
     public class DeviceService : TestProjectAppServiceBase, IDeviceService
     {
         private readonly IRepository<Device> _deviceRepository;
-        
         private readonly IRepository<DeviceTypeProperty> _propertyRepository;
         private readonly IRepository<DevicePropertyValue> _valueRepository;
 
+        private readonly IDeviceTypeService _typeService;
+
         public DeviceService(IRepository<Device> deviceRepository,
-            IRepository<DeviceTypeProperty> propertyRepository, IRepository<DevicePropertyValue> valueRepository)
+            IRepository<DeviceTypeProperty> propertyRepository, IRepository<DevicePropertyValue> valueRepository, IDeviceTypeService typeService)
         {
             _deviceRepository = deviceRepository;
             _propertyRepository = propertyRepository;
             _valueRepository = valueRepository;
+            _typeService = typeService;
         }
 
 
@@ -38,8 +41,21 @@ namespace TestProject.Services.DeviceServices
 
 
 
-        // ---------------------------- CREATE DEVICE -----------------------------//
-        // -------------------------------- STEP 3 --------------------------------//
+        // ---------------------------- CREATE OR UPDATE DEVICE -----------------------------//
+        // ----------------------------------- STEP 3 --------------------------------------//
+
+        public CreateDeviceDto GetDeviceTypesWithPropertiesAndValues(int id)
+        {
+            var types = _typeService.GetDeviceTypesWithProperties(id);
+
+
+
+            
+        }
+
+
+        // ---------------------------- CREATE OR UPDATE DEVICE -----------------------------//
+        // ----------------------------------- STEP 3 --------------------------------------//
         public void CreateOrUpdateDevice(CreateDeviceDto device)
         {
             if (device.Id == 0)
@@ -81,6 +97,14 @@ namespace TestProject.Services.DeviceServices
 
             targetDevice.Name = device.DeviceName;
             targetDevice.Description = device.Description;
+
+            if (targetDevice.DeviceTypeId != device.DeviceTypeId)
+            {
+                foreach (var type in device.DeviceTypes)
+                {
+
+                }
+            }
 
             foreach (var deviceType in device.DeviceTypes)
             {
