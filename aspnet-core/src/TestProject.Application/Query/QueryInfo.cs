@@ -22,6 +22,7 @@ namespace TestProject.Query
         public FilterInfo Filter { get; set; }
 
         
+        //--------------------- RETURNS QUERY RESULTS ------------------//
         public IQueryable<TEntity> GetQuery<TEntity>(QueryInfo queryInfo, IQueryable<TEntity> list)
         {
             var sortInfo = queryInfo.Sorters;
@@ -70,7 +71,7 @@ namespace TestProject.Query
             return list;
         }
 
-        //------------------- ORDER LAMBDA EXPRESSION FILTER -------------------//
+        //------------------- LAMBDA FOR FILTER EXPRESSION COMBINED WITH SEARCH EXPRESSION -------------------//
         public Expression<Func<TEntity, bool>> GetLambdaExpression<TEntity>(ParameterExpression parameter,
             Expression expression, QueryInfo queryInfo)
         {
@@ -113,7 +114,7 @@ namespace TestProject.Query
             return Expression.Lambda<Func<TEntity, bool>>(result, parameter);
         }
 
-        //------------------- ORDER EXPRESSION FILTER -------------------//
+        //------------------- FILTER EXPRESSION -------------------//
         public Expression GetFilterExpression<TEntity>(ParameterExpression parameter, List<RuleInfo> rules,
             string condition)
         {
@@ -207,7 +208,7 @@ namespace TestProject.Query
             return Expression.Lambda<Func<TEntity, object>>(convertExp, parameter);
         }
 
-        //------------------- ORDER BINARY EXPRESSION FOR INT -------------------//
+        //------------------- BINARY EXPRESSION FOR INT -------------------//
         public BinaryExpression GetBinaryExpressionForInt(string operand, Expression propExpression, ConstantExpression constant)
         {
             switch (operand)
@@ -228,7 +229,7 @@ namespace TestProject.Query
             }
         }
 
-        //------------------- ORDER BINARY EXPRESSION FOR STRING -------------------//
+        //------------------- BINARY EXPRESSION FOR STRING -------------------//
         public BinaryExpression GetBinaryExpressionForString(string operand, Expression propExpression, ConstantExpression constant)
         {
             var trueExpression = Expression.Constant(true, typeof(bool));

@@ -26,7 +26,7 @@ namespace TestProject.Migrations
                         x => x.ParentDeviceTypeId,
                         "DeviceTypes",
                         "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
