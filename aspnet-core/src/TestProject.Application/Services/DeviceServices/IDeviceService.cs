@@ -9,11 +9,13 @@ namespace TestProject.Services.DeviceServices
     {
         List<DeviceDto> GetDevices();
 
-       void CreateOrUpdateDevice(CreateDeviceDto device);
+        void CreateOrUpdateDevice(CreateDeviceDto device);
 
         void DeleteDevice(int id);
 
         List<DeviceDto> GetSearchResult(QueryInfo query);
+
+        UpdateDeviceDto GetDeviceTypesWithPropValues(int deviceId, int deviceTypeId);
 
     }
 }

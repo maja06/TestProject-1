@@ -41,21 +41,87 @@ namespace TestProject.Services.DeviceServices
 
 
 
-        // ---------------------------- CREATE OR UPDATE DEVICE -----------------------------//
-        // ----------------------------------- STEP 3 --------------------------------------//
+        // ---------------------------- CREATE OR UPDATE DEVICE ----------------------------//
+        // --------------------------------- STEP 2 (last) ------------------------------//
 
-        public CreateDeviceDto GetDeviceTypesWithPropertiesAndValues(int id)
+        public UpdateDeviceDto GetDeviceTypesWithPropValues(int deviceId, int deviceTypeId)
         {
-            var types = _typeService.GetDeviceTypesWithProperties(id);
+            var device = _deviceRepository.GetAll().Include(x => x.DeviceType).Include(x => x.DevicePropertyValues)
+                .ThenInclude(x => x.DeviceTypeProperty).First(x => x.Id == deviceId);
 
+            var oldTypes = _typeService.GetDeviceTypeWithParents(device.DeviceTypeId).ToList();
 
-
+            UpdateDeviceDto updatedDevice = new UpdateDeviceDto
+            {
+                DeviceId = deviceId,
+                DeviceName = device.Name,
+                Description = device.Description,
+                TypeId = deviceTypeId,
+                DeviceTypes = new List<UpdateDeviceTypesPropValuesDto>()
+            };
             
+            var typesForView = updatedDevice.DeviceTypes;
+
+            var newTypes = _typeService.GetDeviceTypeWithParents(deviceTypeId).ToList();
+
+            foreach (var oldType in oldTypes)
+            {
+                var type = newTypes.FirstOrDefault(x => x.Id == oldType.Id);
+
+                if (type == null)
+                {
+                    foreach (var prop in oldType.DeviceTypeProperties)
+                    {
+                        var valueToDelete =
+                            device.DevicePropertyValues.FirstOrDefault(x => x.DeviceTypePropertyId == prop.Id);
+
+                        if (valueToDelete == null) continue;
+
+                        _valueRepository.Delete(valueToDelete);
+                    }
+
+                    continue;
+                }
+
+                var typeForView = new UpdateDeviceTypesPropValuesDto
+                {
+                    DeviceTypeId = type.Id,
+                    DeviceTypeName = type.Name,
+                    PropValues = new List<UpdateDevicePropValueDto>()
+                };
+
+                foreach (var property in type.DeviceTypeProperties)
+                {
+                    var valueForView =
+                        device.DevicePropertyValues.FirstOrDefault(x => x.DeviceTypePropertyId == property.Id);
+
+                    if (valueForView == null) continue;
+
+                    var propValueForView = new UpdateDevicePropValueDto
+                    {
+                        PropName = property.Name,
+                        Required = property.IsRequired,
+                        Type = property.Type,
+                        Value = valueForView.Value
+
+                    };
+
+                    typeForView.PropValues.Add(propValueForView);
+                }
+
+                typesForView.Add(typeForView);
+            }
+
+            device.DeviceTypeId = deviceTypeId;
+            return updatedDevice;
         }
 
 
+
+
+
         // ---------------------------- CREATE OR UPDATE DEVICE -----------------------------//
-        // ----------------------------------- STEP 3 --------------------------------------//
+        // --------------------------------- STEP 3 (last)---------------------------------//
         public void CreateOrUpdateDevice(CreateDeviceDto device)
         {
             if (device.Id == 0)
@@ -97,14 +163,7 @@ namespace TestProject.Services.DeviceServices
 
             targetDevice.Name = device.DeviceName;
             targetDevice.Description = device.Description;
-
-            if (targetDevice.DeviceTypeId != device.DeviceTypeId)
-            {
-                foreach (var type in device.DeviceTypes)
-                {
-
-                }
-            }
+            targetDevice.DeviceTypeId = device.DeviceTypeId;
 
             foreach (var deviceType in device.DeviceTypes)
             {

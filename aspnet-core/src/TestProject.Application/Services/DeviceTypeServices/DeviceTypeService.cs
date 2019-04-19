@@ -102,7 +102,7 @@ namespace TestProject.Services.DeviceTypeServices
 
         // ---------------GET FLAT LIST OF TYPES STARTING WITH THE PARENT -----------------//
 
-        private IEnumerable<DeviceType> GetDeviceTypeWithChildren(int parentId)
+        public IEnumerable<DeviceType> GetDeviceTypeWithChildren(int parentId)
         {
             var type = _deviceTypeRepository.GetAll().Include(x => x.Devices).ThenInclude(x => x.DevicePropertyValues)
                 .Include(x => x.DeviceTypeProperties)
@@ -134,7 +134,7 @@ namespace TestProject.Services.DeviceTypeServices
 
         // ---------------GET FLAT LIST OF TYPES STARTING WITH THE CHILD -----------------//
 
-        private IEnumerable<DeviceType> GetDeviceTypeWithParents(int? id)
+        public IEnumerable<DeviceType> GetDeviceTypeWithParents(int? id)
         {
             var type = _deviceTypeRepository.GetAll().Include(x => x.Devices).ThenInclude(x => x.DevicePropertyValues)
                 .Include(x => x.DeviceTypeProperties)
