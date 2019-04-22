@@ -19,7 +19,8 @@ namespace TestProject.Services.DeviceServices
         private readonly IDeviceTypeService _typeService;
 
         public DeviceService(IRepository<Device> deviceRepository,
-            IRepository<DeviceTypeProperty> propertyRepository, IRepository<DevicePropertyValue> valueRepository, IDeviceTypeService typeService)
+            IRepository<DeviceTypeProperty> propertyRepository, IRepository<DevicePropertyValue> valueRepository,
+            IDeviceTypeService typeService)
         {
             _deviceRepository = deviceRepository;
             _propertyRepository = propertyRepository;
@@ -49,8 +50,6 @@ namespace TestProject.Services.DeviceServices
             var device = _deviceRepository.GetAll().Include(x => x.DeviceType).Include(x => x.DevicePropertyValues)
                 .ThenInclude(x => x.DeviceTypeProperty).First(x => x.Id == deviceId);
 
-            var oldTypes = _typeService.GetDeviceTypeWithParents(device.DeviceTypeId).ToList();
-
             UpdateDeviceDto updatedDevice = new UpdateDeviceDto
             {
                 DeviceId = deviceId,
@@ -59,38 +58,21 @@ namespace TestProject.Services.DeviceServices
                 TypeId = deviceTypeId,
                 DeviceTypes = new List<UpdateDeviceTypesPropValuesDto>()
             };
-            
-            var typesForView = updatedDevice.DeviceTypes;
+
+            var typesForView = new List<UpdateDeviceTypesPropValuesDto>();
 
             var newTypes = _typeService.GetDeviceTypeWithParents(deviceTypeId).ToList();
 
-            foreach (var oldType in oldTypes)
+            foreach (var newType in newTypes)
             {
-                var type = newTypes.FirstOrDefault(x => x.Id == oldType.Id);
-
-                if (type == null)
-                {
-                    foreach (var prop in oldType.DeviceTypeProperties)
-                    {
-                        var valueToDelete =
-                            device.DevicePropertyValues.FirstOrDefault(x => x.DeviceTypePropertyId == prop.Id);
-
-                        if (valueToDelete == null) continue;
-
-                        _valueRepository.Delete(valueToDelete);
-                    }
-
-                    continue;
-                }
-
                 var typeForView = new UpdateDeviceTypesPropValuesDto
                 {
-                    DeviceTypeId = type.Id,
-                    DeviceTypeName = type.Name,
+                    DeviceTypeId = newType.Id,
+                    DeviceTypeName = newType.Name,
                     PropValues = new List<UpdateDevicePropValueDto>()
                 };
 
-                foreach (var property in type.DeviceTypeProperties)
+                foreach (var property in newType.DeviceTypeProperties)
                 {
                     var valueForView =
                         device.DevicePropertyValues.FirstOrDefault(x => x.DeviceTypePropertyId == property.Id);
@@ -103,7 +85,6 @@ namespace TestProject.Services.DeviceServices
                         Required = property.IsRequired,
                         Type = property.Type,
                         Value = valueForView.Value
-
                     };
 
                     typeForView.PropValues.Add(propValueForView);
@@ -112,7 +93,10 @@ namespace TestProject.Services.DeviceServices
                 typesForView.Add(typeForView);
             }
 
-            device.DeviceTypeId = deviceTypeId;
+            var listOfTypes = typesForView.OrderBy(x => x.DeviceTypeId).ToList();
+
+            updatedDevice.DeviceTypes = listOfTypes;
+
             return updatedDevice;
         }
 
@@ -129,12 +113,11 @@ namespace TestProject.Services.DeviceServices
                 var newDevice = new Device
                 {
                     Name = device.DeviceName,
-                    Description = device.Description
+                    Description = device.Description,
+                    DeviceTypeId = device.DeviceTypeId
                 };
 
                 var valueList = new List<DevicePropertyValue>();
-
-                var maxDeviceTypeId = device.DeviceTypes.Max(x => x.Id);
 
                 foreach (var deviceType in device.DeviceTypes)
                 {
@@ -150,7 +133,6 @@ namespace TestProject.Services.DeviceServices
                         });
                 }
 
-                newDevice.DeviceTypeId = maxDeviceTypeId;
                 newDevice.DevicePropertyValues = valueList;
 
                 _deviceRepository.Insert(newDevice);
@@ -163,24 +145,70 @@ namespace TestProject.Services.DeviceServices
 
             targetDevice.Name = device.DeviceName;
             targetDevice.Description = device.Description;
-            targetDevice.DeviceTypeId = device.DeviceTypeId;
+
+            if (targetDevice.DeviceTypeId != device.DeviceTypeId)
+            {
+                var oldTypes = _typeService.GetDeviceTypeWithParents(targetDevice.DeviceTypeId).ToList();
+
+                var newTypes = _typeService.GetDeviceTypeWithParents(device.DeviceTypeId).ToList();
+
+                foreach (var oldType in oldTypes)
+                {
+                    var type = newTypes.FirstOrDefault(x => x.Id == oldType.Id);
+
+                    if (type == null)
+                    {
+                        foreach (var prop in oldType.DeviceTypeProperties)
+                        {
+                            var valueToDelete =
+                                targetDevice.DevicePropertyValues.FirstOrDefault(x =>
+                                    x.DeviceTypePropertyId == prop.Id);
+
+                            if (valueToDelete == null) continue;
+
+                            _valueRepository.Delete(valueToDelete);
+                        }
+                    }
+                }
+            }
 
             foreach (var deviceType in device.DeviceTypes)
             {
-                var propValues = deviceType.PropValues;
-
-                foreach (var propValue in propValues)
+                foreach (var propValue in deviceType.PropValues)
                 {
-                    var values = _valueRepository.GetAll().Include(x => x.Device).Include(x => x.DeviceTypeProperty);
+                    var property = _propertyRepository.GetAll().Include(x => x.DeviceType).First(x =>
+                        x.DeviceTypeId == deviceType.Id && x.Name == propValue.PropName);
 
-                    var value = values.First(x =>
-                        x.DeviceId == targetDevice.Id && x.DeviceTypeProperty.Name == propValue.PropName);
+                    var values = _valueRepository.GetAll().Include(x => x.Device)
+                        .Include(x => x.DeviceTypeProperty);
 
-                    value.Value = propValue.Value;
+                    var value = values.FirstOrDefault(x =>
+                        x.DeviceId == targetDevice.Id && x.DeviceTypePropertyId == property.Id);
+
+                    if (propValue.Value != null)
+                    {
+                        if (value == null)
+                        {
+                            var newValue = new DevicePropertyValue
+                            {
+                                DeviceId = targetDevice.Id,
+                                DeviceTypePropertyId = property.Id,
+                                Value = propValue.Value
+                            };
+
+                            targetDevice.DevicePropertyValues.Add(newValue);
+
+                            continue;
+                        }
+
+                        value.Value = propValue.Value;
+                    }
                 }
             }
-        }
 
+            targetDevice.DeviceTypeId = device.DeviceTypeId;
+        }
+    
 
         // ------------------------- DELETE DEVICE ----------------------//
 

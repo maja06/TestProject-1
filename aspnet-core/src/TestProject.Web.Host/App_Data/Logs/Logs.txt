@@ -17187,3 +17187,365 @@ INFO  2019-04-19 14:53:23,721 [33   ] ore.Mvc.Internal.ControllerActionInvoker -
 INFO  2019-04-19 14:53:23,735 [42   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
 INFO  2019-04-19 14:53:23,737 [42   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.CreateOrUpdateDevice (TestProject.Application) in 147.1627ms
 INFO  2019-04-19 14:53:23,740 [42   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 171.9606ms 200 application/json; charset=utf-8
+DEBUG 2019-04-22 11:00:08,281 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2019-04-22 11:00:08,404 [1    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2019-04-22 11:00:08,416 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.Web.Host.Startup.TestProjectWebHostModule, TestProject.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,418 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectWebCoreModule, TestProject.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,418 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectApplicationModule, TestProject.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,419 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectCoreModule, TestProject.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,419 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,419 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,419 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,419 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,420 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.EntityFrameworkCore.TestProjectEntityFrameworkModule, TestProject.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,420 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,420 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,420 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,420 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,420 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,421 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:08,423 [1    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2019-04-22 11:00:08,490 [1    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:00:08,491 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:00:08,491 [1    ] o.Configuration.LanguageManagementConfig - Converted TestProject (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:00:08,491 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:00:08,723 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: TestProject.EntityFrameworkCore.TestProjectDbContext, TestProject.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:00:09,549 [1    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2019-04-22 11:00:09,576 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2019-04-22 11:00:09,584 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2019-04-22 11:00:09,588 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: TestProject
+DEBUG 2019-04-22 11:00:09,591 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2019-04-22 11:00:09,723 [1    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2019-04-22 11:00:09,756 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 10 classes define auto mapping attributes
+DEBUG 2019-04-22 11:00:09,756 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Models.TokenAuth.ExternalLoginProviderInfoModel
+DEBUG 2019-04-22 11:00:09,761 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Users.Dto.CreateUserDto
+DEBUG 2019-04-22 11:00:09,761 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Users.Dto.UserDto
+DEBUG 2019-04-22 11:00:09,761 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2019-04-22 11:00:09,762 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Sessions.Dto.UserLoginInfoDto
+DEBUG 2019-04-22 11:00:09,762 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.CreateRoleDto
+DEBUG 2019-04-22 11:00:09,762 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.PermissionDto
+DEBUG 2019-04-22 11:00:09,762 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.RoleDto
+DEBUG 2019-04-22 11:00:09,762 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2019-04-22 11:00:09,762 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.MultiTenancy.Dto.TenantDto
+INFO  2019-04-22 11:00:14,599 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/  
+INFO  2019-04-22 11:00:17,711 [12   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {action = "Index", controller = "Home", area = ""}. Executing action TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host)
+INFO  2019-04-22 11:00:18,526 [12   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host) - Validation state: Valid
+INFO  2019-04-22 11:00:18,531 [12   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host), returned result Microsoft.AspNetCore.Mvc.RedirectResult in 1.5741ms.
+INFO  2019-04-22 11:00:18,706 [7    ] vc.Infrastructure.RedirectResultExecutor - Executing RedirectResult, redirecting to /swagger.
+INFO  2019-04-22 11:00:18,717 [7    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host) in 1001.7259ms
+INFO  2019-04-22 11:00:18,763 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 4165.413ms 302 
+INFO  2019-04-22 11:00:18,766 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger  
+INFO  2019-04-22 11:00:18,778 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 11.547ms 301 
+INFO  2019-04-22 11:00:18,780 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/index.html  
+INFO  2019-04-22 11:00:18,804 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 24.0956ms 200 text/html
+INFO  2019-04-22 11:00:18,818 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui.css  
+INFO  2019-04-22 11:00:18,820 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-bundle.js  
+INFO  2019-04-22 11:00:18,822 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-standalone-preset.js  
+INFO  2019-04-22 11:00:18,826 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.js  
+INFO  2019-04-22 11:00:18,831 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.swagger.js  
+INFO  2019-04-22 11:00:18,865 [6    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.swagger.js'. Physical path: 'C:\Users\Bild324\Documents\GitHub\TestProject\aspnet-core\src\TestProject.Web.Host\wwwroot\swagger\ui\abp.swagger.js'
+INFO  2019-04-22 11:00:18,869 [16   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.js'. Physical path: 'C:\Users\Bild324\Documents\GitHub\TestProject\aspnet-core\src\TestProject.Web.Host\wwwroot\swagger\ui\abp.js'
+INFO  2019-04-22 11:00:18,870 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 40.758ms 200 application/javascript
+INFO  2019-04-22 11:00:18,872 [16   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 48.0288ms 200 application/javascript
+INFO  2019-04-22 11:00:18,881 [12   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+INFO  2019-04-22 11:00:18,895 [11   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+INFO  2019-04-22 11:00:18,897 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 75.5798ms 200 text/css
+INFO  2019-04-22 11:00:18,898 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 78.5183ms 200 application/javascript
+INFO  2019-04-22 11:00:18,921 [6    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+INFO  2019-04-22 11:00:18,922 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 105.3832ms 200 application/javascript
+INFO  2019-04-22 11:00:19,105 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-bundle.js.map  
+INFO  2019-04-22 11:00:19,107 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-standalone-preset.js.map  
+INFO  2019-04-22 11:00:19,111 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/v1/swagger.json  
+INFO  2019-04-22 11:00:19,166 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-standalone-preset.js.map'. Physical path: 'N/A'
+INFO  2019-04-22 11:00:19,168 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 60.8851ms 200 text/plain
+INFO  2019-04-22 11:00:19,278 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-bundle.js.map'. Physical path: 'N/A'
+INFO  2019-04-22 11:00:19,281 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 175.8107ms 200 text/plain
+INFO  2019-04-22 11:00:19,425 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 312.8658ms 200 application/json;charset=utf-8
+INFO  2019-04-22 11:01:21,321 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/api/services/app/DeviceService/GetDeviceTypesWithPropValues?deviceId=2&deviceTypeId=3  
+INFO  2019-04-22 11:01:21,350 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {area = "app", action = "GetDeviceTypesWithPropValues", controller = "DeviceService"}. Executing action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application)
+INFO  2019-04-22 11:01:22,339 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) with arguments (2, 3) - Validation state: Valid
+INFO  2019-04-22 11:01:22,594 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 253.9531ms.
+INFO  2019-04-22 11:01:22,620 [18   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2019-04-22 11:01:22,647 [18   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) in 1295.2477ms
+INFO  2019-04-22 11:01:22,648 [18   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 1327.3575ms 200 application/json; charset=utf-8
+DEBUG 2019-04-22 11:02:39,346 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2019-04-22 11:02:39,384 [1    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2019-04-22 11:02:39,396 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.Web.Host.Startup.TestProjectWebHostModule, TestProject.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,398 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectWebCoreModule, TestProject.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,398 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectApplicationModule, TestProject.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,398 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectCoreModule, TestProject.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,399 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,399 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,399 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,399 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,400 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.EntityFrameworkCore.TestProjectEntityFrameworkModule, TestProject.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,400 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,400 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,400 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,400 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,400 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,401 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:39,403 [1    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2019-04-22 11:02:39,452 [1    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:02:39,452 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:02:39,452 [1    ] o.Configuration.LanguageManagementConfig - Converted TestProject (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:02:39,452 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:02:39,669 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: TestProject.EntityFrameworkCore.TestProjectDbContext, TestProject.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:02:40,349 [1    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2019-04-22 11:02:40,373 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2019-04-22 11:02:40,394 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2019-04-22 11:02:40,397 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: TestProject
+DEBUG 2019-04-22 11:02:40,400 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2019-04-22 11:02:40,510 [1    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2019-04-22 11:02:40,543 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 10 classes define auto mapping attributes
+DEBUG 2019-04-22 11:02:40,543 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Models.TokenAuth.ExternalLoginProviderInfoModel
+DEBUG 2019-04-22 11:02:40,548 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Users.Dto.CreateUserDto
+DEBUG 2019-04-22 11:02:40,548 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Users.Dto.UserDto
+DEBUG 2019-04-22 11:02:40,548 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2019-04-22 11:02:40,548 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Sessions.Dto.UserLoginInfoDto
+DEBUG 2019-04-22 11:02:40,549 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.CreateRoleDto
+DEBUG 2019-04-22 11:02:40,549 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.PermissionDto
+DEBUG 2019-04-22 11:02:40,549 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.RoleDto
+DEBUG 2019-04-22 11:02:40,549 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2019-04-22 11:02:40,549 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.MultiTenancy.Dto.TenantDto
+INFO  2019-04-22 11:02:45,133 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/  
+INFO  2019-04-22 11:02:48,076 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {action = "Index", controller = "Home", area = ""}. Executing action TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host)
+INFO  2019-04-22 11:02:48,856 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host) - Validation state: Valid
+INFO  2019-04-22 11:02:48,860 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host), returned result Microsoft.AspNetCore.Mvc.RedirectResult in 1.3969ms.
+INFO  2019-04-22 11:02:49,027 [9    ] vc.Infrastructure.RedirectResultExecutor - Executing RedirectResult, redirecting to /swagger.
+INFO  2019-04-22 11:02:49,038 [9    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host) in 957.1583ms
+INFO  2019-04-22 11:02:49,083 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 3956.7033ms 302 
+INFO  2019-04-22 11:02:49,085 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger  
+INFO  2019-04-22 11:02:49,095 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 10.0442ms 301 
+INFO  2019-04-22 11:02:49,097 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/index.html  
+INFO  2019-04-22 11:02:49,120 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 22.3498ms 200 text/html
+INFO  2019-04-22 11:02:49,154 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui.css  
+INFO  2019-04-22 11:02:49,158 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-bundle.js  
+INFO  2019-04-22 11:02:49,160 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-standalone-preset.js  
+INFO  2019-04-22 11:02:49,162 [15   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.js  
+INFO  2019-04-22 11:02:49,164 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.swagger.js  
+INFO  2019-04-22 11:02:49,188 [12   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.js'. Physical path: 'C:\Users\Bild324\Documents\GitHub\TestProject\aspnet-core\src\TestProject.Web.Host\wwwroot\swagger\ui\abp.js'
+INFO  2019-04-22 11:02:49,189 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.swagger.js'. Physical path: 'C:\Users\Bild324\Documents\GitHub\TestProject\aspnet-core\src\TestProject.Web.Host\wwwroot\swagger\ui\abp.swagger.js'
+INFO  2019-04-22 11:02:49,190 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 27.3327ms 200 application/javascript
+INFO  2019-04-22 11:02:49,192 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 27.9085ms 200 application/javascript
+INFO  2019-04-22 11:02:49,200 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+INFO  2019-04-22 11:02:49,202 [11   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+INFO  2019-04-22 11:02:49,208 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+INFO  2019-04-22 11:02:49,213 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 77.2992ms 200 text/css
+INFO  2019-04-22 11:02:49,214 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 78.847ms 200 application/javascript
+INFO  2019-04-22 11:02:49,216 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 49.728ms 200 application/javascript
+INFO  2019-04-22 11:02:49,361 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-bundle.js.map  
+INFO  2019-04-22 11:02:49,376 [15   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-bundle.js.map'. Physical path: 'N/A'
+INFO  2019-04-22 11:02:49,378 [15   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 16.5648ms 200 text/plain
+INFO  2019-04-22 11:02:49,422 [15   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/v1/swagger.json  
+INFO  2019-04-22 11:02:49,540 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-standalone-preset.js.map  
+INFO  2019-04-22 11:02:49,548 [11   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-standalone-preset.js.map'. Physical path: 'N/A'
+INFO  2019-04-22 11:02:49,550 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 12.5645ms 200 text/plain
+INFO  2019-04-22 11:02:49,654 [15   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 232.2007ms 200 application/json;charset=utf-8
+INFO  2019-04-22 11:02:59,363 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/api/services/app/DeviceService/GetDeviceTypesWithPropValues?deviceId=2&deviceTypeId=3  
+INFO  2019-04-22 11:02:59,391 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {area = "app", action = "GetDeviceTypesWithPropValues", controller = "DeviceService"}. Executing action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application)
+INFO  2019-04-22 11:03:00,323 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) with arguments (2, 3) - Validation state: Valid
+INFO  2019-04-22 11:03:00,579 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 254.9777ms.
+INFO  2019-04-22 11:03:00,606 [10   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2019-04-22 11:03:00,621 [10   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) in 1228.6365ms
+INFO  2019-04-22 11:03:00,624 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 1260.2087ms 200 application/json; charset=utf-8
+INFO  2019-04-22 11:03:24,774 [15   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/api/services/app/DeviceService/GetDeviceTypesWithPropValues?deviceId=14&deviceTypeId=1  
+INFO  2019-04-22 11:03:24,779 [15   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {area = "app", action = "GetDeviceTypesWithPropValues", controller = "DeviceService"}. Executing action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application)
+INFO  2019-04-22 11:03:24,787 [15   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) with arguments (14, 1) - Validation state: Valid
+INFO  2019-04-22 11:03:24,810 [15   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 21.8796ms.
+INFO  2019-04-22 11:03:24,814 [12   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2019-04-22 11:03:24,819 [12   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) in 36.9939ms
+INFO  2019-04-22 11:03:24,820 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 46.7167ms 200 application/json; charset=utf-8
+INFO  2019-04-22 11:03:32,493 [15   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/api/services/app/DeviceService/GetDeviceTypesWithPropValues?deviceId=14&deviceTypeId=3  
+INFO  2019-04-22 11:03:32,497 [15   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {area = "app", action = "GetDeviceTypesWithPropValues", controller = "DeviceService"}. Executing action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application)
+INFO  2019-04-22 11:03:32,500 [15   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) with arguments (14, 3) - Validation state: Valid
+INFO  2019-04-22 11:03:32,512 [15   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 10.4623ms.
+INFO  2019-04-22 11:03:32,516 [12   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2019-04-22 11:03:32,517 [12   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) in 19.6019ms
+INFO  2019-04-22 11:03:32,520 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 26.1329ms 200 application/json; charset=utf-8
+DEBUG 2019-04-22 11:04:44,868 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2019-04-22 11:04:44,883 [1    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2019-04-22 11:04:44,895 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.Web.Host.Startup.TestProjectWebHostModule, TestProject.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,897 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectWebCoreModule, TestProject.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,897 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectApplicationModule, TestProject.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,897 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectCoreModule, TestProject.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,898 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,898 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,898 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,898 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,898 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.EntityFrameworkCore.TestProjectEntityFrameworkModule, TestProject.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,899 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,899 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,899 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,899 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,899 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,899 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:44,901 [1    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2019-04-22 11:04:44,940 [1    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:04:44,940 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:04:44,940 [1    ] o.Configuration.LanguageManagementConfig - Converted TestProject (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:04:44,940 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 11:04:45,115 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: TestProject.EntityFrameworkCore.TestProjectDbContext, TestProject.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 11:04:45,403 [1    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2019-04-22 11:04:45,426 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2019-04-22 11:04:45,434 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2019-04-22 11:04:45,437 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: TestProject
+DEBUG 2019-04-22 11:04:45,440 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2019-04-22 11:04:45,462 [1    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2019-04-22 11:04:45,495 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 10 classes define auto mapping attributes
+DEBUG 2019-04-22 11:04:45,495 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Models.TokenAuth.ExternalLoginProviderInfoModel
+DEBUG 2019-04-22 11:04:45,500 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Users.Dto.CreateUserDto
+DEBUG 2019-04-22 11:04:45,500 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Users.Dto.UserDto
+DEBUG 2019-04-22 11:04:45,501 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2019-04-22 11:04:45,501 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Sessions.Dto.UserLoginInfoDto
+DEBUG 2019-04-22 11:04:45,501 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.CreateRoleDto
+DEBUG 2019-04-22 11:04:45,501 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.PermissionDto
+DEBUG 2019-04-22 11:04:45,501 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.RoleDto
+DEBUG 2019-04-22 11:04:45,501 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2019-04-22 11:04:45,502 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.MultiTenancy.Dto.TenantDto
+INFO  2019-04-22 11:04:48,216 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/  
+INFO  2019-04-22 11:04:49,070 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {action = "Index", controller = "Home", area = ""}. Executing action TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host)
+INFO  2019-04-22 11:04:49,331 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host) - Validation state: Valid
+INFO  2019-04-22 11:04:49,334 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host), returned result Microsoft.AspNetCore.Mvc.RedirectResult in 1.2631ms.
+INFO  2019-04-22 11:04:49,483 [6    ] vc.Infrastructure.RedirectResultExecutor - Executing RedirectResult, redirecting to /swagger.
+INFO  2019-04-22 11:04:49,491 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host) in 418.618ms
+INFO  2019-04-22 11:04:49,529 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 1316.8923ms 302 
+INFO  2019-04-22 11:04:49,529 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/index.html  
+INFO  2019-04-22 11:04:49,561 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 31.2922ms 200 text/html
+INFO  2019-04-22 11:04:49,568 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui.css  
+INFO  2019-04-22 11:04:49,569 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-bundle.js  
+INFO  2019-04-22 11:04:49,571 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-standalone-preset.js  
+INFO  2019-04-22 11:04:49,571 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.js  
+INFO  2019-04-22 11:04:49,572 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.swagger.js  
+INFO  2019-04-22 11:04:49,589 [12   ] NetCore.StaticFiles.StaticFileMiddleware - The file /swagger-ui.css was not modified
+INFO  2019-04-22 11:04:49,589 [7    ] NetCore.StaticFiles.StaticFileMiddleware - The file /swagger-ui-standalone-preset.js was not modified
+INFO  2019-04-22 11:04:49,589 [9    ] NetCore.StaticFiles.StaticFileMiddleware - The file /swagger/ui/abp.js was not modified
+INFO  2019-04-22 11:04:49,589 [11   ] NetCore.StaticFiles.StaticFileMiddleware - The file /swagger-ui-bundle.js was not modified
+INFO  2019-04-22 11:04:49,589 [6    ] NetCore.StaticFiles.StaticFileMiddleware - The file /swagger/ui/abp.swagger.js was not modified
+INFO  2019-04-22 11:04:49,591 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 23.7666ms 304 text/css
+INFO  2019-04-22 11:04:49,591 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 19.4222ms 304 application/javascript
+INFO  2019-04-22 11:04:49,591 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 22.6584ms 304 application/javascript
+INFO  2019-04-22 11:04:49,591 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 19.9569ms 304 application/javascript
+INFO  2019-04-22 11:04:49,591 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 20.4132ms 304 application/javascript
+INFO  2019-04-22 11:04:49,797 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/v1/swagger.json  
+INFO  2019-04-22 11:04:49,821 [15   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/favicon-32x32.png  
+INFO  2019-04-22 11:04:49,835 [15   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+INFO  2019-04-22 11:04:49,835 [15   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 13.568ms 200 image/png
+INFO  2019-04-22 11:04:49,970 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 172.7202ms 200 application/json;charset=utf-8
+INFO  2019-04-22 11:05:06,076 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/api/services/app/DeviceService/GetDeviceTypesWithPropValues?deviceId=2&deviceTypeId=3  
+INFO  2019-04-22 11:05:06,100 [12   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {area = "app", action = "GetDeviceTypesWithPropValues", controller = "DeviceService"}. Executing action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application)
+INFO  2019-04-22 11:05:06,474 [12   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) with arguments (2, 3) - Validation state: Valid
+INFO  2019-04-22 11:05:06,715 [12   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 240.6752ms.
+INFO  2019-04-22 11:05:06,737 [12   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2019-04-22 11:05:06,751 [12   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) in 650.3992ms
+INFO  2019-04-22 11:05:06,751 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 675.4627ms 200 application/json; charset=utf-8
+INFO  2019-04-22 11:05:53,927 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/api/services/app/DeviceService/GetDeviceTypesWithPropValues?deviceId=2&deviceTypeId=6  
+INFO  2019-04-22 11:05:53,930 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {area = "app", action = "GetDeviceTypesWithPropValues", controller = "DeviceService"}. Executing action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application)
+INFO  2019-04-22 11:05:53,932 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) with arguments (2, 6) - Validation state: Valid
+INFO  2019-04-22 11:05:53,956 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 23.9663ms.
+INFO  2019-04-22 11:05:53,959 [19   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2019-04-22 11:05:53,959 [19   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) in 29.1908ms
+INFO  2019-04-22 11:05:53,959 [19   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 32.7334ms 200 application/json; charset=utf-8
+DEBUG 2019-04-22 11:06:11,713 [2    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2019-04-22 11:06:11,714 [2    ] Abp.BackgroundJobs.BackgroundJobManager  - Stop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2019-04-22 11:06:11,714 [2    ] Abp.BackgroundJobs.BackgroundJobManager  - WaitToStop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2019-04-22 11:06:11,714 [2    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2019-04-22 13:21:13,477 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2019-04-22 13:21:13,515 [1    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2019-04-22 13:21:13,527 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.Web.Host.Startup.TestProjectWebHostModule, TestProject.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,529 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectWebCoreModule, TestProject.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,529 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectApplicationModule, TestProject.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,529 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.TestProjectCoreModule, TestProject.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,530 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,530 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,530 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,530 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,530 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: TestProject.EntityFrameworkCore.TestProjectEntityFrameworkModule, TestProject.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,531 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,531 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,531 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,531 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,531 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,531 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:13,534 [1    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2019-04-22 13:21:13,582 [1    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 13:21:13,582 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 13:21:13,582 [1    ] o.Configuration.LanguageManagementConfig - Converted TestProject (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 13:21:13,582 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2019-04-22 13:21:13,798 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: TestProject.EntityFrameworkCore.TestProjectDbContext, TestProject.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-04-22 13:21:14,457 [1    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2019-04-22 13:21:14,481 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2019-04-22 13:21:14,501 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2019-04-22 13:21:14,504 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: TestProject
+DEBUG 2019-04-22 13:21:14,507 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2019-04-22 13:21:14,619 [1    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2019-04-22 13:21:14,651 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 10 classes define auto mapping attributes
+DEBUG 2019-04-22 13:21:14,651 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Models.TokenAuth.ExternalLoginProviderInfoModel
+DEBUG 2019-04-22 13:21:14,664 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Users.Dto.CreateUserDto
+DEBUG 2019-04-22 13:21:14,665 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Users.Dto.UserDto
+DEBUG 2019-04-22 13:21:14,665 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2019-04-22 13:21:14,665 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Sessions.Dto.UserLoginInfoDto
+DEBUG 2019-04-22 13:21:14,665 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.CreateRoleDto
+DEBUG 2019-04-22 13:21:14,665 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.PermissionDto
+DEBUG 2019-04-22 13:21:14,665 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.Roles.Dto.RoleDto
+DEBUG 2019-04-22 13:21:14,666 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2019-04-22 13:21:14,666 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - TestProject.MultiTenancy.Dto.TenantDto
+INFO  2019-04-22 13:21:19,273 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/  
+INFO  2019-04-22 13:21:21,806 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {action = "Index", controller = "Home", area = ""}. Executing action TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host)
+INFO  2019-04-22 13:21:22,497 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host) - Validation state: Valid
+INFO  2019-04-22 13:21:22,501 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host), returned result Microsoft.AspNetCore.Mvc.RedirectResult in 1.421ms.
+INFO  2019-04-22 13:21:22,659 [10   ] vc.Infrastructure.RedirectResultExecutor - Executing RedirectResult, redirecting to /swagger.
+INFO  2019-04-22 13:21:22,669 [10   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Web.Host.Controllers.HomeController.Index (TestProject.Web.Host) in 859.3099ms
+INFO  2019-04-22 13:21:22,711 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 3443.2223ms 302 
+INFO  2019-04-22 13:21:22,713 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger  
+INFO  2019-04-22 13:21:22,722 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 9.4354ms 301 
+INFO  2019-04-22 13:21:22,724 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/index.html  
+INFO  2019-04-22 13:21:22,745 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 21.0677ms 200 text/html
+INFO  2019-04-22 13:21:22,759 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui.css  
+INFO  2019-04-22 13:21:22,765 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-bundle.js  
+INFO  2019-04-22 13:21:22,765 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-standalone-preset.js  
+INFO  2019-04-22 13:21:22,768 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.swagger.js  
+INFO  2019-04-22 13:21:22,769 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.js  
+INFO  2019-04-22 13:21:22,813 [11   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.js'. Physical path: 'C:\Users\Bild324\Documents\GitHub\TestProject\aspnet-core\src\TestProject.Web.Host\wwwroot\swagger\ui\abp.js'
+INFO  2019-04-22 13:21:22,814 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.swagger.js'. Physical path: 'C:\Users\Bild324\Documents\GitHub\TestProject\aspnet-core\src\TestProject.Web.Host\wwwroot\swagger\ui\abp.swagger.js'
+INFO  2019-04-22 13:21:22,815 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 46.555ms 200 application/javascript
+INFO  2019-04-22 13:21:22,817 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 48.6213ms 200 application/javascript
+INFO  2019-04-22 13:21:22,823 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+INFO  2019-04-22 13:21:22,825 [15   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+INFO  2019-04-22 13:21:22,830 [15   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+INFO  2019-04-22 13:21:22,839 [15   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 75.6475ms 200 application/javascript
+INFO  2019-04-22 13:21:22,840 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 75.3787ms 200 application/javascript
+INFO  2019-04-22 13:21:22,841 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 78.092ms 200 text/css
+INFO  2019-04-22 13:21:22,985 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-bundle.js.map  
+INFO  2019-04-22 13:21:23,001 [12   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-bundle.js.map'. Physical path: 'N/A'
+INFO  2019-04-22 13:21:23,003 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 17.507ms 200 text/plain
+INFO  2019-04-22 13:21:23,042 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/v1/swagger.json  
+INFO  2019-04-22 13:21:23,151 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui-standalone-preset.js.map  
+INFO  2019-04-22 13:21:23,159 [11   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-standalone-preset.js.map'. Physical path: 'N/A'
+INFO  2019-04-22 13:21:23,162 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 10.9268ms 200 text/plain
+INFO  2019-04-22 13:21:23,254 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 210.2973ms 200 application/json;charset=utf-8
+INFO  2019-04-22 13:25:56,112 [20   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/api/services/app/DeviceService/GetDeviceTypesWithPropValues?deviceId=2&deviceTypeId=3  
+INFO  2019-04-22 13:25:56,149 [20   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {area = "app", action = "GetDeviceTypesWithPropValues", controller = "DeviceService"}. Executing action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application)
+INFO  2019-04-22 13:25:57,133 [20   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) with arguments (2, 3) - Validation state: Valid
+INFO  2019-04-22 13:25:57,375 [20   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 241.1745ms.
+INFO  2019-04-22 13:25:57,405 [23   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2019-04-22 13:25:57,421 [23   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) in 1271.3028ms
+INFO  2019-04-22 13:25:57,423 [23   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 1312.2599ms 200 application/json; charset=utf-8
+INFO  2019-04-22 13:26:28,144 [30   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/api/services/app/DeviceService/GetDeviceTypesWithPropValues?deviceId=2&deviceTypeId=2  
+INFO  2019-04-22 13:26:28,149 [30   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {area = "app", action = "GetDeviceTypesWithPropValues", controller = "DeviceService"}. Executing action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application)
+INFO  2019-04-22 13:26:28,152 [30   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) with arguments (2, 2) - Validation state: Valid
+INFO  2019-04-22 13:26:28,170 [30   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 15.0481ms.
+INFO  2019-04-22 13:26:28,175 [31   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2019-04-22 13:26:28,177 [31   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.GetDeviceTypesWithPropValues (TestProject.Application) in 26.2387ms
+INFO  2019-04-22 13:26:28,178 [31   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 38.6875ms 200 application/json; charset=utf-8
+INFO  2019-04-22 13:32:32,801 [39   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 POST http://localhost:21021/api/services/app/DeviceService/CreateOrUpdateDevice application/json-patch+json 317
+INFO  2019-04-22 13:32:32,816 [39   ] pNetCore.Cors.Infrastructure.CorsService - CORS policy execution failed.
+INFO  2019-04-22 13:32:32,818 [39   ] pNetCore.Cors.Infrastructure.CorsService - Request origin http://localhost:21021 does not have permission to access the resource.
+INFO  2019-04-22 13:32:32,829 [39   ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {area = "app", action = "CreateOrUpdateDevice", controller = "DeviceService"}. Executing action TestProject.Services.DeviceServices.DeviceService.CreateOrUpdateDevice (TestProject.Application)
+INFO  2019-04-22 13:32:32,830 [39   ] pNetCore.Cors.Infrastructure.CorsService - CORS policy execution failed.
+INFO  2019-04-22 13:32:32,831 [39   ] pNetCore.Cors.Infrastructure.CorsService - Request origin http://localhost:21021 does not have permission to access the resource.
+INFO  2019-04-22 13:32:32,919 [39   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method TestProject.Services.DeviceServices.DeviceService.CreateOrUpdateDevice (TestProject.Application) with arguments (TestProject.DTO.DeviceDtos.CreateDeviceDto) - Validation state: Valid
+INFO  2019-04-22 13:32:32,986 [39   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method TestProject.Services.DeviceServices.DeviceService.CreateOrUpdateDevice (TestProject.Application), returned result Microsoft.AspNetCore.Mvc.EmptyResult in 66.0908ms.
+INFO  2019-04-22 13:32:33,061 [41   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2019-04-22 13:32:33,065 [41   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action TestProject.Services.DeviceServices.DeviceService.CreateOrUpdateDevice (TestProject.Application) in 233.1039ms
+INFO  2019-04-22 13:32:33,067 [41   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 266.5546ms 200 application/json; charset=utf-8
