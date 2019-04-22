@@ -119,24 +119,25 @@ namespace TestProject.Services.DeviceServices
                     DeviceTypeId = device.DeviceTypeId
                 };
 
-                var valueList = new List<DevicePropertyValue>();
-
                 foreach (var deviceType in device.DeviceTypes)
                 {
                     var propValues = deviceType.PropValues;
 
                     foreach (var propValue in propValues)
-                        valueList.Add(new DevicePropertyValue
+                    {
+                        if (propValue.Value != null)
                         {
-                            Value = propValue.Value,
-                            DeviceTypePropertyId = _propertyRepository.FirstOrDefault(x =>
-                                x.DeviceTypeId == deviceType.Id && x.Name == propValue.PropName).Id,
-                            DeviceId = newDevice.Id
-                        });
+                            _valueRepository.Insert(new DevicePropertyValue
+                            {
+                                Value = propValue.Value,
+                                DeviceTypePropertyId = _propertyRepository.FirstOrDefault(x =>
+                                    x.DeviceTypeId == deviceType.Id && x.Name == propValue.PropName).Id,
+                                DeviceId = newDevice.Id
+                            });
+                        }
+                    }
                 }
-
-                newDevice.DevicePropertyValues = valueList;
-
+                
                 _deviceRepository.Insert(newDevice);
 
                 return;
