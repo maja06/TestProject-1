@@ -76,16 +76,18 @@ namespace TestProject.Services.DeviceServices
                 {
                     var valueForView =
                         device.DevicePropertyValues.FirstOrDefault(x => x.DeviceTypePropertyId == property.Id);
-
-                    if (valueForView == null) continue;
-
+                    
                     var propValueForView = new UpdateDevicePropValueDto
                     {
                         PropName = property.Name,
                         Required = property.IsRequired,
-                        Type = property.Type,
-                        Value = valueForView.Value
+                        Type = property.Type
                     };
+
+                    if (valueForView == null)
+                    {
+                        propValueForView.Value = null;
+                    }
 
                     typeForView.PropValues.Add(propValueForView);
                 }
