@@ -72,11 +72,10 @@ namespace TestProject.Services.DeviceServices
                     PropValues = new List<UpdateDevicePropValueDto>()
                 };
 
+                typesForView.Add(typeForView);
+
                 foreach (var property in newType.DeviceTypeProperties)
                 {
-                    var valueForView =
-                        device.DevicePropertyValues.FirstOrDefault(x => x.DeviceTypePropertyId == property.Id);
-                    
                     var propValueForView = new UpdateDevicePropValueDto
                     {
                         PropName = property.Name,
@@ -84,20 +83,22 @@ namespace TestProject.Services.DeviceServices
                         Type = property.Type
                     };
 
+                    typeForView.PropValues.Add(propValueForView);
+
+                    var valueForView =
+                        device.DevicePropertyValues.FirstOrDefault(x => x.DeviceTypePropertyId == property.Id);
+
                     if (valueForView == null)
                     {
                         propValueForView.Value = null;
+                        continue;
                     }
 
-                    typeForView.PropValues.Add(propValueForView);
+                    propValueForView.Value = valueForView.Value;
                 }
-
-                typesForView.Add(typeForView);
             }
 
-            var listOfTypes = typesForView.OrderBy(x => x.DeviceTypeId).ToList();
-
-            updatedDevice.DeviceTypes = listOfTypes;
+            updatedDevice.DeviceTypes = typesForView.OrderBy(x => x.DeviceTypeId).ToList();
 
             return updatedDevice;
         }
@@ -119,26 +120,23 @@ namespace TestProject.Services.DeviceServices
                     DeviceTypeId = device.DeviceTypeId
                 };
 
+                _deviceRepository.Insert(newDevice);
+
                 foreach (var deviceType in device.DeviceTypes)
                 {
                     var propValues = deviceType.PropValues;
 
                     foreach (var propValue in propValues)
                     {
-                        if (propValue.Value != null)
+                        _valueRepository.Insert(new DevicePropertyValue
                         {
-                            _valueRepository.Insert(new DevicePropertyValue
-                            {
-                                Value = propValue.Value,
-                                DeviceTypePropertyId = _propertyRepository.FirstOrDefault(x =>
-                                    x.DeviceTypeId == deviceType.Id && x.Name == propValue.PropName).Id,
-                                DeviceId = newDevice.Id
-                            });
-                        }
+                            Value = propValue.Value,
+                            DeviceTypePropertyId = _propertyRepository.FirstOrDefault(x =>
+                                x.DeviceTypeId == deviceType.Id && x.Name == propValue.PropName).Id,
+                            DeviceId = newDevice.Id
+                        });
                     }
                 }
-                
-                _deviceRepository.Insert(newDevice);
 
                 return;
             }
@@ -211,7 +209,7 @@ namespace TestProject.Services.DeviceServices
 
             targetDevice.DeviceTypeId = device.DeviceTypeId;
         }
-    
+
 
         // ------------------------- DELETE DEVICE ----------------------//
 
@@ -228,7 +226,7 @@ namespace TestProject.Services.DeviceServices
         public List<DeviceDto> GetSearchResult([FromBody]QueryInfo query)
         {
             var allDevices = _deviceRepository.GetAll().Include(x => x.DeviceType);
-            
+
             var result = query.GetQuery(query, allDevices).ToList();
 
             var dtoResult = ObjectMapper.Map<List<DeviceDto>>(result);
