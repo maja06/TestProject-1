@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
 using Abp.AspNetCore;
@@ -65,7 +66,7 @@ namespace TestProject.Web.Host.Startup
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Info {Title = "TestProject API", Version = "v1"});
+                options.SwaggerDoc("v1", new Info { Title = "TestProject API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
 
                 // Define the BearerAuth scheme that's in use
@@ -79,6 +80,29 @@ namespace TestProject.Web.Host.Startup
                 });
             });
 
+
+
+
+            //AUTHENTICATION
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddAuthentication(options => { options.DefaultScheme = "Cookies"; }).AddCookie().AddOpenIdConnect(
+                "oidc",
+                options =>
+                {
+                    options.Authority = "https://localhost:50728";
+                    options.RequireHttpsMetadata = false;
+
+                    options.ClientId = "MyABP";
+                    options.SaveTokens = true;
+                });
+
+
+
+
+
+
+
             // Configure Abp and Dependency Injection
             return services.AddAbp<TestProjectWebHostModule>(
                 // Configure Log4Net logging
@@ -86,6 +110,11 @@ namespace TestProject.Web.Host.Startup
                     f => f.UseAbpLog4Net().WithConfig("log4net.config")
                 )
             );
+
+
+
+
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -103,16 +132,28 @@ namespace TestProject.Web.Host.Startup
 
             app.UseSignalR(routes => { routes.MapHub<AbpCommonHub>("/signalr"); });
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    "defaultWithArea",
-                    "{area}/{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
-                    "default",
-                    "{controller=Home}/{action=Index}/{id?}");
-            });
+            //AUTH
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
+            app.UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        "defaultWithArea",
+                        "{area}/{controller=Home}/{action=Index}/{id?}");
+
+                    routes.MapRoute(
+                        "default",
+                        "{controller=Home}/{action=Index}/{id?}");
+                });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
