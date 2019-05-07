@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.Web.Core", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.EntityFrameworkCore", "src\TestProject.EntityFrameworkCore\TestProject.EntityFrameworkCore.csproj", "{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{BDF89482-5075-485D-8F15-1533BAEAAAEF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerForAbp", "..\..\IdentityServerForAbp\IdentityServerForAbp\IdentityServerForAbp.csproj", "{29BEFED2-B03E-40BE-8FF9-BE9259947902}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,10 @@ Global
 		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29BEFED2-B03E-40BE-8FF9-BE9259947902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29BEFED2-B03E-40BE-8FF9-BE9259947902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29BEFED2-B03E-40BE-8FF9-BE9259947902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29BEFED2-B03E-40BE-8FF9-BE9259947902}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +75,7 @@ Global
 		{38E184BD-E874-4633-A947-AED4FDB73F40} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
 		{22CFE0D2-8DCA-42D7-AD7D-784C3862493F} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
 		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{29BEFED2-B03E-40BE-8FF9-BE9259947902} = {BDF89482-5075-485D-8F15-1533BAEAAAEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5D75AC97-6DF9-4A8F-9DA3-5C57F2078023}

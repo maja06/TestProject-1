@@ -32,9 +32,6 @@ namespace TestProject.Web.Host.Startup
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            // ------------- CORS -----------------//
-
-
             // MVC
             services.AddMvc(
                 options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
@@ -81,25 +78,7 @@ namespace TestProject.Web.Host.Startup
             });
 
 
-
-
-            //AUTHENTICATION
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            services.AddAuthentication(options => { options.DefaultScheme = "Cookies"; }).AddCookie().AddOpenIdConnect(
-                "oidc",
-                options =>
-                {
-                    options.Authority = "https://localhost:50728";
-                    options.RequireHttpsMetadata = false;
-
-                    options.ClientId = "MyABP";
-                    options.SaveTokens = true;
-                });
-
-
-
-
+            // IDENTITY SERVER
 
 
 
@@ -110,11 +89,6 @@ namespace TestProject.Web.Host.Startup
                     f => f.UseAbpLog4Net().WithConfig("log4net.config")
                 )
             );
-
-
-
-
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -133,30 +107,20 @@ namespace TestProject.Web.Host.Startup
             app.UseSignalR(routes => { routes.MapHub<AbpCommonHub>("/signalr"); });
 
 
-            //AUTH
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
             app.UseMvc(routes =>
-                {
-                    routes.MapRoute(
-                        "defaultWithArea",
-                        "{area}/{controller=Home}/{action=Index}/{id?}");
+            {
+                routes.MapRoute(
+                    "defaultWithArea",
+                    "{area}/{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
+            });
 
-                    routes.MapRoute(
-                        "default",
-                        "{controller=Home}/{action=Index}/{id?}");
-                });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
+
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
             app.UseSwaggerUI(options =>
             {
@@ -166,6 +130,10 @@ namespace TestProject.Web.Host.Startup
                 options.IndexStream = () => Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("TestProject.Web.Host.wwwroot.swagger.ui.index.html");
             }); // URL: /swagger
+
+
+            // IDENTITY SERVER
+
         }
     }
 }
