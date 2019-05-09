@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
 using Abp.AspNetCore;
@@ -7,6 +6,7 @@ using Abp.AspNetCore.SignalR.Hubs;
 using Abp.Castle.Logging.Log4Net;
 using Abp.Extensions;
 using Castle.Facilities.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
@@ -77,10 +77,15 @@ namespace TestProject.Web.Host.Startup
                 });
             });
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    // base-address of your identityserver
+                    options.Authority = "http://localhost:44351/";
 
-            // IDENTITY SERVER
-
-
+                    // name of the API resource
+                    options.Audience = "api1";
+                });
 
             // Configure Abp and Dependency Injection
             return services.AddAbp<TestProjectWebHostModule>(
@@ -98,15 +103,15 @@ namespace TestProject.Web.Host.Startup
             app.UseCors(_defaultCorsPolicyName); // Enable CORS!
 
             app.UseStaticFiles();
-
+            
+            //------ IDENTITY SERVER ------//
             app.UseAuthentication();
 
             app.UseAbpRequestLocalization();
 
 
             app.UseSignalR(routes => { routes.MapHub<AbpCommonHub>("/signalr"); });
-
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -131,8 +136,6 @@ namespace TestProject.Web.Host.Startup
                     .GetManifestResourceStream("TestProject.Web.Host.wwwroot.swagger.ui.index.html");
             }); // URL: /swagger
 
-
-            // IDENTITY SERVER
 
         }
     }
