@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerForAbp", "..\..\IdentityServerForAbp\IdentityServerForAbp\IdentityServerForAbp.csproj", "{29BEFED2-B03E-40BE-8FF9-BE9259947902}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFirstApp", "..\..\..\..\source\repos\IdentityServerProject\MyFirstApp\MyFirstApp.csproj", "{8D3C867C-F203-46E2-ADE8-0050ACD1A406}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{29BEFED2-B03E-40BE-8FF9-BE9259947902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29BEFED2-B03E-40BE-8FF9-BE9259947902}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29BEFED2-B03E-40BE-8FF9-BE9259947902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D3C867C-F203-46E2-ADE8-0050ACD1A406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D3C867C-F203-46E2-ADE8-0050ACD1A406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D3C867C-F203-46E2-ADE8-0050ACD1A406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D3C867C-F203-46E2-ADE8-0050ACD1A406}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

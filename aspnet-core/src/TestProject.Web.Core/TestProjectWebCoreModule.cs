@@ -46,23 +46,23 @@ namespace TestProject
                     typeof(TestProjectApplicationModule).GetAssembly()
                 );
 
-            ConfigureTokenAuth();
+            //ConfigureTokenAuth();
         }
 
-        private void ConfigureTokenAuth()
-        {
-            IocManager.Register<TokenAuthConfiguration>();
-            var tokenAuthConfig = IocManager.Resolve<TokenAuthConfiguration>();
+        //private void ConfigureTokenAuth()
+        //{
+        //    IocManager.Register<TokenAuthConfiguration>();
+        //    var tokenAuthConfig = IocManager.Resolve<TokenAuthConfiguration>();
 
-            tokenAuthConfig.SecurityKey =
-                new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(_appConfiguration["Authentication:JwtBearer:SecurityKey"]));
-            tokenAuthConfig.Issuer = _appConfiguration["Authentication:JwtBearer:Issuer"];
-            tokenAuthConfig.Audience = _appConfiguration["Authentication:JwtBearer:Audience"];
-            tokenAuthConfig.SigningCredentials =
-                new SigningCredentials(tokenAuthConfig.SecurityKey, SecurityAlgorithms.HmacSha256);
-            tokenAuthConfig.Expiration = TimeSpan.FromDays(1);
-        }
+        //    tokenAuthConfig.SecurityKey =
+        //        new SymmetricSecurityKey(
+        //            Encoding.ASCII.GetBytes(_appConfiguration["Authentication:JwtBearer:SecurityKey"]));
+        //    tokenAuthConfig.Issuer = _appConfiguration["Authentication:JwtBearer:Issuer"];
+        //    tokenAuthConfig.Audience = _appConfiguration["Authentication:JwtBearer:Audience"];
+        //    tokenAuthConfig.SigningCredentials =
+        //        new SigningCredentials(tokenAuthConfig.SecurityKey, SecurityAlgorithms.HmacSha256);
+        //    tokenAuthConfig.Expiration = TimeSpan.FromDays(1);
+        //}
 
         public override void Initialize()
         {
